@@ -30,4 +30,14 @@
   </servlet-mapping>
   
   
+   <servlet>
+  	<servlet-name>member</servlet-name>
+  	<servlet-class>controller.member.MemberController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>member</servlet-name>	
+  	<url-pattern>*.mem</url-pattern>	
+  </servlet-mapping>
+ 
+  
 </web-app>

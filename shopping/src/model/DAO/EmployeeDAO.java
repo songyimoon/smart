@@ -12,12 +12,12 @@ import model.DTO.EmployeeDTO;
 
 public class EmployeeDAO {
 	
-	final String COLUMMS = "EMPLOYEE_ID, EMP_USERID, EMP_PW, EMP_NAME, HIRE_DATE, JOB_ID, PH_NUMBER, OFFICE_NUMBER, EMP_EMAIL, EMP_ADDRESS";
-	static String jdbcDriver; // 너무 길어서 만든 변수
-	static String jdbcUrl; // too
+	final String COLUMNS = "EMPLOYEE_ID, EMP_USERID, EMP_PW, EMP_NAME, HIRE_DATE, JOB_ID, PH_NUMBER, OFFICE_NUMBER, EMP_EMAIL, EMP_ADDRESS";
+	static String jdbcDriver; 
+	static String jdbcUrl; 
 	static Connection conn;
 	String sql;
-	PreparedStatement pstmt; // sql문을 실행시키기 위함
+	PreparedStatement pstmt; 
 	Integer result;
 	ResultSet rs;
 	
@@ -25,23 +25,87 @@ public class EmployeeDAO {
 		jdbcDriver="oracle.jdbc.driver.OracleDriver";
 		jdbcUrl="jdbc:oracle:thin:@localhost:1521:xe";		
 	}
-	public static void getConnect() {
+	public static void getConnect() { 
 		try {
-			Class.forName(jdbcDriver); // 사용하고자 하는 라이브러리가 있는지를 확인하는 것
-			conn = DriverManager.getConnection(jdbcUrl,"msy","oracle"); // conn에 데이터베이스 연결
+			Class.forName(jdbcDriver); 
+			conn = DriverManager.getConnection(jdbcUrl,"msy","oracle"); 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 						
 	}
 	
-	public List<EmployeeDTO> getEmpList() {
-		List<EmployeeDTO> list = new ArrayList<EmployeeDTO>();
-		sql = "select * from employees";
+	public void empDelete(String empId) {
+		sql = "delete from employees where employee_id=?";
 		getConnect();
 		try {
 			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
+			pstmt.setString(1, empId);
+			int i = pstmt.executeUpdate();
+			System.out.println(i+"개 행이 삭제되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
+	public void empUpdate(EmployeeDTO dto) {
+		sql = "update employees " + " set JOB_ID=?, PH_NUMBER=?, OFFICE_NUMBER=?, EMP_EMAIL=?, EMP_ADDRESS=?" + " where employee_id = ?";
+		getConnect();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getJobId());
+			pstmt.setString(2, dto.getPhNumber());
+			pstmt.setString(3, dto.getOfficeNumber());
+			pstmt.setString(4, dto.getEmpEmail());
+			pstmt.setString(5, dto.getEmpAddress());
+			pstmt.setString(6, dto.getEmployeeId());
+			int i=pstmt.executeUpdate();
+			System.out.println(i+"개 행이 수정되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
+	public EmployeeDTO empInfo(String empId) {
+		EmployeeDTO dto = new EmployeeDTO();
+		sql= "select " + COLUMNS + " from employees where employee_id = ?";
+		getConnect();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, empId); // db랑 상관없이 날리는값에따라
+			rs = pstmt.executeQuery(); // select해서 가져온 값은 rs가 받는다.
+			if(rs.next()) { // 값이 없을 수도 있음
+				dto.setEmployeeId(rs.getString("EMPLOYEE_ID"));
+				dto.setEmpUserid(rs.getString(2));
+				dto.setEmpPw(rs.getString("EMP_PW"));
+				dto.setEmpName(rs.getString(4));
+				dto.setHireDate(rs.getString("HIRE_DATE"));
+				dto.setJobId(rs.getString("JOB_ID"));
+				dto.setPhNumber(rs.getString("PH_NUMBER"));
+				dto.setOfficeNumber(rs.getString("OFFICE_NUMBER"));
+				dto.setEmpEmail(rs.getString("EMP_EMAIL"));
+				dto.setEmpAddress(rs.getString("EMP_ADDRESS"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return dto;
+	}
+	
+	
+	public List <EmployeeDTO> getEmpList() { 
+		List<EmployeeDTO> list = new ArrayList<EmployeeDTO>();
+		sql = "select " + COLUMNS + " from employees";  
+		getConnect(); 
+		try {
+			pstmt = conn.prepareStatement(sql); 
+			rs = pstmt.executeQuery(); 
+			while (rs.next()) { 
 				EmployeeDTO dto = new EmployeeDTO();
 				dto.setEmployeeId(rs.getString("EMPLOYEE_ID"));
 				dto.setEmpUserid(rs.getString(2));
@@ -62,14 +126,14 @@ public class EmployeeDAO {
 		}
 		return list;
 	}
-	public int getEmpNo() {
-		getConnect();
-		sql="select nvl(max(employee_id), 10000)+1 from employees";
+	public int getEmpNo() { 
+		getConnect(); 
+		sql="select nvl(max(employee_id), 10000)+1 from employees"; 
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql); 
 			rs = pstmt.executeQuery();
-			rs.next(); // BOF를 지나쳐서.. 내려가렴.... 
-			result = rs.getInt(1);
+			rs.next();
+			result = rs.getInt(1); 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -77,12 +141,12 @@ public class EmployeeDAO {
 		}
 		return result;
 	}
-	public void empInsert(EmployeeDTO dto){
-		sql= "insert into employees ("+COLUMMS+")" + "values(?,?,?,?,?,?,?,?,?,?)";
-		getConnect();
+	public void empInsert(EmployeeDTO dto){ 
+		sql= "insert into employees ("+COLUMNS+")" + "values(?,?,?,?,?,?,?,?,?,?)";
+		getConnect(); 
 		try {
-			pstmt = conn.prepareStatement(sql); // spl문을 db로 전달한다. // try catch
-			pstmt.setString(1, dto.getEmployeeId()); // parameterIndex는 값 있는건 따지지 않고 ? 갯수로만 인덱스를 따짐
+			pstmt = conn.prepareStatement(sql); 
+			pstmt.setString(1, dto.getEmployeeId()); 
 			pstmt.setString(2, dto.getEmpUserid());
 			pstmt.setString(3, dto.getEmpPw());
 			pstmt.setString(4, dto.getEmpName());
@@ -92,15 +156,15 @@ public class EmployeeDAO {
 			pstmt.setString(8, dto.getOfficeNumber());
 			pstmt.setString(9, dto.getEmpEmail());
 			pstmt.setString(10, dto.getEmpAddress());
-			result=pstmt.executeUpdate(); // executeUpdate는 integer를 반환한다.
-			System.out.println(result+"개행이 저장되었습니다.");
+			result=pstmt.executeUpdate(); 
+			System.out.println(result+"개 행이 저장되었습니다.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			close();
 		}
 	}
-	private void close() { // 여기서만 쓸꺼니까 private로 메서드 생성. 닫는 메서드!
+	private void close() { 
 		if(rs != null)
 			try {rs.close();} 
 			catch (SQLException e) {}

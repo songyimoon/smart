@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class MainController extends HttpServlet 
 							implements Servlet{
+	
 	public void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String requestURI=request.getRequestURI();

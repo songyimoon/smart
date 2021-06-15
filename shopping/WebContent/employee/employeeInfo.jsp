@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+사원정보 페이지입니다. <br/>
 사원번호 : ${emp.employeeId }<br />
 아이디 : ${emp.empUserid }<br />
 이름 : ${emp.empName }<br />

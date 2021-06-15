@@ -27,8 +27,35 @@ public class MemberController extends HttpServlet
 			MemberJoinPage action = new MemberJoinPage();
 			action.memInsert(request);
 			response.sendRedirect("main.sm");
+		}else if (command.equals("/memList.mem")){
+			MemberListPage action = new MemberListPage();
+			action.memList(request);
+			response.setCharacterEncoding("utf-8");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("member/memberList.jsp");
+			dispatcher.include(request, response);
+		}else if (command.equals("/memInfo.mem")) {
+			MemberInfoPage action = new MemberInfoPage();
+			action.memInfo(request);
+			response.setCharacterEncoding("utf-8"); // 웹브라우저에서 깨지면 response, 이클립스 내에서 깨지면 request에 set~
+			RequestDispatcher dispatcher = request.getRequestDispatcher("member/memberInfo.jsp");
+			dispatcher.forward(request, response);
+		}else if (command.equals("/memMod.mem")) {
+			MemberInfoPage action = new MemberInfoPage();
+			action.memInfo(request);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("member/memberModify.jsp");
+			dispatcher.forward(request, response);
+		}else if (command.equals("/memModifyOk.mem")) {
+			MemberModifyPage action = new MemberModifyPage();
+			action.memUpdate(request);
+			response.sendRedirect("memList.mem");
+		}else if (command.equals("/memDel.mem")) {
+			MemberDeletePage action = new MemberDeletePage();
+			action.memDel(request);
+			response.sendRedirect("memList.mem");
+		}else if(command.equals("/myPage.mem")) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("member/memMyPage.jsp");
+			dispatcher.forward(request, response);
 		}
-		
 	}
 	
 	

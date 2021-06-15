@@ -29,8 +29,8 @@
 
 <tr>
 	<td colspan="3">
-	<a href="#">아이디</a>|
-	<a href="#">비밀번호찾기</a>|
+	<a href="#">아이디</a>/
+	<a href="#">비밀번호찾기</a> |
 	<a href="memAgree.mem">회원가입</a>
 	</td>
 </tr>
@@ -46,10 +46,6 @@
 		<a href="myPage.mem">마이페이지</a>
 		
 	</c:if>
-	
-	
-	
-	
 	
 	
 	<c:if test="${authInfo.grade != 1 }">

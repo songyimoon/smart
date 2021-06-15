@@ -41,6 +41,7 @@ public class MemberDAO {
 			pstmt = conn.prepareStatement(sql);			pstmt.setString(1, memId);
 			rs=pstmt.executeQuery();
 			if(rs.next()) { // rs값이 null일수도 있으니까 if절을 씀 (select결과가 없다고) get방식이 위험할수있다
+				
 				dto.setDetailadd(rs.getString("DETAIL_ADD"));
 	            dto.setMemAccount(rs.getString("MEM_ACCOUNT"));
 	            dto.setMemAddress(rs.getString("MEM_ADDRESS"));

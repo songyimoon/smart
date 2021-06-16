@@ -11,7 +11,6 @@ import model.DAO.MemberDAO;
 import model.DTO.MemberDTO;
 
 public class MemberModifyPage {
-	
 	public void memUpdate(HttpServletRequest request) {
 		try {
 			request.setCharacterEncoding("utf-8");

@@ -5,10 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 정보 페이지</title>
+<title>나의 상세 정보</title>
 </head>
 <body>
-회원정보 페이지입니다. <br/>
+나의 상세 정보 <br/>
 
 
 아이디 : ${dto.memId }<br/>
@@ -27,8 +27,10 @@
 		<c:if test="${dto.memEmailCk == 'N' }">
 		이메일수신 거부
 		</c:if>
-		<br/>
-<a href="memMod.mem?memId=${dto.memId }">수정</a>
+<br/>
 
-</body> 
+<a href="memSujung.mem">수정</a>
+
+
+</body>
 </html>

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.DTO.EmployeeDTO;
+import sun.security.timestamp.TSRequest;
 
 public class EmployeeDAO {
 	
@@ -34,6 +35,56 @@ public class EmployeeDAO {
 		} 						
 	}
 	
+	
+	public void empPwchange(String userId, String empPw) {
+		sql="update employees set EMP_PW = ? where EMP_USERID = ? ";
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, empPw);
+			pstmt.setString(2, userId);
+			int i = pstmt.executeUpdate();
+			System.out.println(i+"개 행이 수정되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
+	
+	
+	
+	
+	public EmployeeDTO empDetail(String empUserid) {
+		EmployeeDTO dto = new EmployeeDTO();
+		sql="select " + COLUMNS + " from employees where EMP_USERID=?";
+		getConnect();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, empUserid);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				dto.setEmployeeId(rs.getString("EMPLOYEE_ID"));
+				dto.setEmpUserid(rs.getString("EMP_USERID"));
+				dto.setEmpPw(rs.getString("EMP_PW"));
+				dto.setEmpName(rs.getString("EMP_NAME"));
+				dto.setHireDate(rs.getString("HIRE_DATE"));
+				dto.setJobId(rs.getString("JOB_ID"));
+				dto.setPhNumber(rs.getString("PH_NUMBER"));
+				dto.setOfficeNumber(rs.getString("OFFICE_NUMBER"));
+				dto.setEmpEmail(rs.getString("EMP_EMAIL"));
+				dto.setEmpAddress(rs.getString("EMP_ADDRESS"));	
+			}
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return dto;
+	}
+	
+	
 	public void empDelete(String empId) {
 		sql = "delete from employees where employee_id=?";
 		getConnect();
@@ -48,6 +99,22 @@ public class EmployeeDAO {
 			close();
 		}
 	}
+	
+	public void empDel(String empUserid) {
+		sql = "delete from employees where EMP_USERID=?";
+		getConnect();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, empUserid);
+			int i = pstmt.executeUpdate();
+			System.out.println(i+"개 행이 삭제되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+
 	
 	public void empUpdate(EmployeeDTO dto) {
 		sql = "update employees " + " set JOB_ID=?, PH_NUMBER=?, OFFICE_NUMBER=?, EMP_EMAIL=?, EMP_ADDRESS=?" + " where employee_id = ?";
@@ -69,15 +136,16 @@ public class EmployeeDAO {
 		}
 	}
 	
+	
 	public EmployeeDTO empInfo(String empId) {
 		EmployeeDTO dto = new EmployeeDTO();
 		sql= "select " + COLUMNS + " from employees where employee_id = ?";
 		getConnect();
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, empId); // db랑 상관없이 날리는값에따라
-			rs = pstmt.executeQuery(); // select해서 가져온 값은 rs가 받는다.
-			if(rs.next()) { // 값이 없을 수도 있음
+			pstmt.setString(1, empId);
+			rs = pstmt.executeQuery(); 
+			if(rs.next()) { 
 				dto.setEmployeeId(rs.getString("EMPLOYEE_ID"));
 				dto.setEmpUserid(rs.getString(2));
 				dto.setEmpPw(rs.getString("EMP_PW"));

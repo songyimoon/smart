@@ -33,6 +33,22 @@ public class MemberDAO {
 		}
 	}
 	
+	public void pwChange(String memId, String memPw) {
+		sql="update member set mem_pw = ? where mem_id = ?";
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, memPw);
+			pstmt.setString(2, memId);
+			int i = pstmt.executeUpdate();
+			System.out.println(i+"개 행이 수정되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
 	public MemberDTO memDetail(String memId) {
 		MemberDTO dto = new MemberDTO();
 		sql = "select "+ COLUMNS + " from member where mem_id=?";

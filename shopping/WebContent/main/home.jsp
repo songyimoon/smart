@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>HOME</title>
 </head>
 <body>
 <!-- 로그인 안되었을 때 -->
@@ -51,10 +51,9 @@
 	<c:if test="${authInfo.grade != 1 }">
 	<!-- 직원 -->
 	
+		<a href="empMyPage.em">마이페이지</a>
 	
 	<!-- 관리자 -->
-
-
 
 
 	<a href="empList.em">직원 리스트</a>

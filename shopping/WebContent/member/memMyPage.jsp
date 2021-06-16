@@ -4,10 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>마이페이지(회원)</title>
 </head>
 <body>
-<a href="memDetail.mem">회원정보 수정</a> | 비밀번호 변경 | 회원 탈퇴
+<a href="memDetail.mem">회원정보 </a> | 
+<a href="memPwChange.mem">비밀번호 변경</a> | 
+<a href="memOut.mem">회원 탈퇴</a>
 
 
 </body>

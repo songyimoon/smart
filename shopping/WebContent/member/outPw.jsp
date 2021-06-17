@@ -17,7 +17,7 @@
 </script>
 </head>
 <body>
-<form action="memOutOk.mem" method="post" onsubmit="return outConfirm()">
+<form action="memOutOk.mem" method="post" name="frm" onsubmit="return outConfirm()">
 비밀번호 : <input type="password" name="memPw" /><br/>
 <span>${pwFail }</span><br/>
 <input type="submit" value="탈퇴" />

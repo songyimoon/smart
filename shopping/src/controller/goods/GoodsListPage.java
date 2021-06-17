@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import model.DAO.GoodsDAO;
 import model.DTO.ProductDTO;
 
-public class GoodListPage {
+public class GoodsListPage {
 	public void goodsList(HttpServletRequest request) {
 		GoodsDAO dao = new GoodsDAO();
 		List <ProductDTO> list = dao.goodsList();

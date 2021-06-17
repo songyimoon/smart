@@ -18,7 +18,7 @@ public void doProcess(HttpServletRequest request, HttpServletResponse response) 
 	String command=requestURI.substring(contextPath.length());	
 	
 	if(command.equals("/goodsList.gd")) {
-		GoodListPage action = new GoodListPage();
+		GoodsListPage action = new GoodsListPage();
 		action.goodsList(request);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("goods/goodsList.jsp");
 		dispatcher.forward(request, response);

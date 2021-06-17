@@ -43,18 +43,18 @@
 	
 	<c:if test="${authInfo.grade == 1 }">
 	<!-- 일반회원 -->
-		<a href="myPage.mem">마이페이지</a>
-		
+		<a href="myPage.mem">마이페이지</a>		
 	</c:if>
 		<c:if test="${authInfo.grade != 1 }">
 		<a href="empMyPage.em">마이페이지</a>
 		
+		
 		<!-- 직원 -->
-	
 		<a href="goodsList.gd">상품등록</a>
+		<a href="noticeList.nt">공지사항</a>
+	
+	
 	<!-- 관리자 -->
-
-
 		<a href="empList.em">직원 리스트</a>
 		<a href="memList.mem">회원 리스트</a>
 	</c:if>

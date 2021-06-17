@@ -28,7 +28,7 @@
 	<tr><th>공급처</th>
 		<td><input type="text" name="prodSupplier"/></td></tr>
 	<tr><th>배송비</th>
-		<td><input type="number" name="prodDelFee" min="0" step="1"/></td></tr>
+		<td><input type="number" name="prodDelFee" min="0" step="500"/></td></tr>
 	<tr><th>추천상품</th>
 		<td><input type="radio" name="recommend" value="Y" checked/>추천
 			<input type="radio" name="recommend" value="N"/>비추천

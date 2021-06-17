@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class NoticeDTO {
 
-	Integer noticeNo;
+	String noticeNo;
 	String noticeSub;
 	String noticeCon;
 	Date noticeDate;
@@ -12,10 +12,12 @@ public class NoticeDTO {
 	String noticeFile;
 	String noticeHits;
 	String employeeId;
-	public Integer getNoticeNo() {
+
+
+	public String getNoticeNo() {
 		return noticeNo;
 	}
-	public void setNoticeNo(Integer noticeNo) {
+	public void setNoticeNo(String noticeNo) {
 		this.noticeNo = noticeNo;
 	}
 	public String getNoticeSub() {

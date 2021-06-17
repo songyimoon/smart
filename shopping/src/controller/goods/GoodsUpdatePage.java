@@ -24,8 +24,6 @@ public class GoodsUpdatePage {
 		dto.setProdSupplier(request.getParameter("prodSupplier"));
 		dto.setRecommend(request.getParameter("recommend"));
 		GoodsDAO dao = new GoodsDAO();
-		dao.goodsUpdate(dto);
-		
-		
+		dao.goodsUpdate(dto);	
 	}
 }

@@ -21,7 +21,7 @@ public class GoodsJoinPage {
 		MultipartRequest multi=null;
 		HttpSession session = request.getSession();
 		AuthInfo authInfo=(AuthInfo)session.getAttribute("authInfo");
-		String emp_no=authInfo.getGrade(); // grade에 employee_id 넣었음. sql확인
+		String emp_no=authInfo.getGrade();
 		String storeFileName1;
 		String storeFileName2;
 		String storeFileName3;

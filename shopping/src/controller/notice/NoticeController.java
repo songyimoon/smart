@@ -22,11 +22,27 @@ public class NoticeController extends HttpServlet
 		action.noticeList(request);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("notice/noticeList.jsp");
 		dispatcher.forward(request, response);
+	}else if (command.equals("/noticeListMem.nt")) {
+		NoticeListPage action = new NoticeListPage();
+		action.noticeList(request);
+		response.setCharacterEncoding("utf-8");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("notice/noticeListMem.jsp");
+		dispatcher.forward(request, response);
+		
+		
+	}else if (command.equals("/noticeRegist.nt")) {
+		NoticeNumberPage action = new NoticeNumberPage();
+		action.seqNum(request);
+		response.setCharacterEncoding("utf-8");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("notice/noticeRegist.jsp");
+		dispatcher.forward(request, response);
+	}else if(command.equals("/noticeJoin.nt")) {
+		NoticeJoinPage action = new NoticeJoinPage();
+		action.noticeJoin(request);
+		response.sendRedirect("noticeList.nt");
 	}
 	
-	}
-	
-	
+	} 
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

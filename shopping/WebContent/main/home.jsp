@@ -15,7 +15,6 @@
 <tr>
 	<td colspan="3">아이디저장 | 자동로그인</td>
 </tr>
-
 <tr>
 	<td>아이디</td>
 	<td><input type="text" name="userId"/><span>${userFail }</span></td>
@@ -43,20 +42,20 @@
 	
 	<c:if test="${authInfo.grade == 1 }">
 	<!-- 일반회원 -->
-		<a href="myPage.mem">마이페이지</a>		
+		<a href="myPage.mem">마이페이지</a> 	
+		<a href="noticeListMem.nt">공지사항</a>	
 	</c:if>
+	
 		<c:if test="${authInfo.grade != 1 }">
 		<a href="empMyPage.em">마이페이지</a>
 		
-		
 		<!-- 직원 -->
 		<a href="goodsList.gd">상품등록</a>
-		<a href="noticeList.nt">공지사항</a>
+		<a href="noticeList.nt">공지사항</a>	
 	
-	
-	<!-- 관리자 -->
-		<a href="empList.em">직원 리스트</a>
-		<a href="memList.mem">회원 리스트</a>
+		<!-- 관리자 -->
+			<a href="empList.em">직원 리스트</a>
+			<a href="memList.mem">회원 리스트</a>
 	</c:if>
 	<a href="logout.sm">로그아웃</a>
 </c:if>

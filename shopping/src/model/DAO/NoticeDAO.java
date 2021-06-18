@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.DTO.NoticeDTO;
+import sun.security.timestamp.TSRequest;
 
 public class NoticeDAO extends DataBaseInfo{
 
@@ -36,7 +37,32 @@ public class NoticeDAO extends DataBaseInfo{
       
    }
    
-   
+   public NoticeDTO noticeOne(String noticeNo) {
+	   NoticeDTO dto = null;
+	   sql = "select " + COLUMNS + " from notice where NOTICE_NO = ? ";
+	   getConnect();
+	   try {
+		pstmt=conn.prepareStatement(sql);
+		pstmt.setString(1, noticeNo);
+		rs=pstmt.executeQuery();
+		if(rs.next()) {
+			dto = new NoticeDTO();
+			dto.setEmployeeId(rs.getString("EMPLOYEE_ID"));
+			dto.setNoticeCon(rs.getString("NOTICE_CON"));
+			dto.setNoticeDate(rs.getDate("NOTICE_DATE"));
+			dto.setNoticeFile(rs.getString("NOTICE_FILE"));
+			dto.setNoticeHits(rs.getString("NOTICE_HITS"));
+			dto.setNoticeKind(rs.getString("NOTICE_KIND"));
+			dto.setNoticeNo(rs.getString("NOTICE_NO"));
+			dto.setNoticeSub(rs.getString("NOTICE_SUB"));
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} finally {
+		close();
+	}
+	return dto;
+   }
    
    
    public List<NoticeDTO> noticeList(){

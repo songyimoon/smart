@@ -27,9 +27,7 @@ public class NoticeController extends HttpServlet
 		action.noticeList(request);
 		response.setCharacterEncoding("utf-8");
 		RequestDispatcher dispatcher = request.getRequestDispatcher("notice/noticeListMem.jsp");
-		dispatcher.forward(request, response);
-		
-		
+		dispatcher.forward(request, response);	
 	}else if (command.equals("/noticeRegist.nt")) {
 		NoticeNumberPage action = new NoticeNumberPage();
 		action.seqNum(request);
@@ -39,6 +37,15 @@ public class NoticeController extends HttpServlet
 	}else if(command.equals("/noticeJoin.nt")) {
 		NoticeJoinPage action = new NoticeJoinPage();
 		action.noticeJoin(request);
+		response.sendRedirect("noticeList.nt");
+	}else if (command.equals("/noticeDetail.nt")) {
+		NoticeModifyPage action = new NoticeModifyPage();
+		action.noticeModify(request);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("notice/noticeModify.jsp");
+		dispatcher.forward(request, response);
+	}else if(command.equals("/noticeModify.nt")) {
+		NoticeUpdatePage action = new NoticeUpdatePage();
+		action.noticeUpdate(request);
 		response.sendRedirect("noticeList.nt");
 	}
 	

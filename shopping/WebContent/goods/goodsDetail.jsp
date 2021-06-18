@@ -22,7 +22,8 @@
 <p><p>
 <form action="#" name="frm" method="post">
 <input type="hidden" name="prodNum" value="${dto.prodNum }"/>
-${dto.ctgr }의 ${dto.prodName } 상품 설명입니다.
+<h1 align="center">
+${dto.ctgr }의 ${dto.prodName } 상품 설명입니다.</h1>
 <table width="800" align="center" >
 	<tr><td rowspan="6">
 	<img height="300" src="goods/upload/${dto.prodImage.split(',')[0] }"/>

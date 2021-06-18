@@ -14,11 +14,8 @@ public class GoodsDAO extends DataBaseInfo{
 							+ "PROD_SUPPLIER, PROD_DEL_FEE, RECOMMEND, EMPLOYEE_ID, CTGR";
 	
 	
-	
-	
 	public List cartList(String memId) {
 		List list = new ArrayList();
-		
 		sql=" select p.PROD_NUM, PROD_SUPPLIER, PROD_DEL_FEE, PROD_IMAGE, PROD_NAME, PROD_PRICE, " 
 				+ " CART_PRICE, CART_QTY " 
 				+ " from products p, cart c " 
@@ -39,17 +36,14 @@ public class GoodsDAO extends DataBaseInfo{
 				dto.getProductDTO().setProdImage(rs.getString("PROD_IMAGE"));
 				dto.getProductDTO().setProdName(rs.getString("PROD_NAME"));
 				dto.getProductDTO().setProdPrice(rs.getInt("PROD_PRICE"));
-				// 객체안에 있는 객체의 멤버필드 안에 값을 저장해서 가져옴
-				
+				// 객체안에 있는 객체의 멤버필드 안에 값을 저장해서 가져옴		
 				list.add(dto);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		
 		}
 		return list;
 	}
-	
 	
 	
 	public void cartInsert(CartDTO dto) {

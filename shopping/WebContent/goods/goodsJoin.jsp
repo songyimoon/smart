@@ -41,7 +41,7 @@
 			<input type="file" name="prodImage3"/><br/></td></tr>
 	<tr><th colspan="2">
 			<input type="submit" value="상품 등록"/>
-			<input type="reset" value="상품 등록 취소"/>
+			<input type="reset" value="내용 지우기"/>
 			<input type="button" value="홈으로" onclick="javascript:location.href='main.sm'"/>
 	</th></tr>
 </table>

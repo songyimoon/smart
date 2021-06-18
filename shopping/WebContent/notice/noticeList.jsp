@@ -19,7 +19,7 @@
 	<th>조회수</th>
 	<th>글쓴이(사원)</th>
 <c:forEach items="${lists }" var="dto">
-<tr><td>${dto.noticeNo }</td>
+<tr><td><a href="noticeDetail.nt?noticeNo=${dto.noticeNo }">${dto.noticeNo }</a></td>
 	<td>${dto.noticeSub }</td>
 	<td>${dto.noticeCon }</td>
 	<td>${dto.noticeDate }</td>

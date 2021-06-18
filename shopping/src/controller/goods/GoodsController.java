@@ -51,9 +51,15 @@ public void doProcess(HttpServletRequest request, HttpServletResponse response) 
 		action.goodsModify(request);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("goods/goodsDetail.jsp");
 		dispatcher.forward(request, response);
+		
 	}else if(command.equals("/goodsCartAdd.gd")) {
 		GoodsCartAddPage action = new GoodsCartAddPage();
 		action.cartAdd(request);
+		response.sendRedirect("goodsCartList.gd");
+		
+	}else if(command.equals("/goodsCartList.gd")) {
+		GoodsCartList cartList = new GoodsCartList();
+		cartList.cartList(request);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("goods/goodsCart.jsp");
 		dispatcher.forward(request, response);
 	}

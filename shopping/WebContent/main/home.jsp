@@ -46,6 +46,7 @@
 	<!-- 일반회원 -->
 		<a href="myPage.mem">마이페이지</a> 	
 		<a href="noticeListMem.nt">공지사항</a>	
+		<a href="goodsCartList.gd">장바구니</a>
 	</c:if>
 	
 		<c:if test="${authInfo.grade != 1 }">

@@ -5,29 +5,87 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.DTO.CartDTO;
+import model.DTO.ProductCartDTO;
 import model.DTO.ProductDTO;
-import oracle.net.aso.l;
 
 public class GoodsDAO extends DataBaseInfo{
 	
 	final String COLUMNS = "PROD_NUM, PROD_NAME, PROD_PRICE, PROD_IMAGE, PROD_DETAIL, PROD_CAPACITY, "
 							+ "PROD_SUPPLIER, PROD_DEL_FEE, RECOMMEND, EMPLOYEE_ID, CTGR";
 	
+	
+	
+	
+	public List cartList(String memId) {
+		List list = new ArrayList();
+		
+		sql=" select p.PROD_NUM, PROD_SUPPLIER, PROD_DEL_FEE, PROD_IMAGE, PROD_NAME, PROD_PRICE, " 
+				+ " CART_PRICE, CART_QTY " 
+				+ " from products p, cart c " 
+				+ " where p.PROD_NUM = c.PROD_NUM and c.MEM_ID = ? ";
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);			pstmt.setString(1, memId);
+			rs=pstmt.executeQuery();
+			while (rs.next()) {
+				ProductCartDTO dto=new ProductCartDTO();
+				dto.setCartDTO(new CartDTO());
+				dto.setProductDTO(new ProductDTO());
+				dto.getCartDTO().setCartPrice(rs.getInt("CART_PRICE"));
+				dto.getCartDTO().setCartQty(rs.getString("CART_QTY"));
+				
+				dto.getProductDTO().setProdSupplier(rs.getString("PROD_SUPPLIER"));
+				dto.getProductDTO().setProdDelFee(rs.getString("PROD_DEL_FEE"));
+				dto.getProductDTO().setProdImage(rs.getString("PROD_IMAGE"));
+				dto.getProductDTO().setProdName(rs.getString("PROD_NAME"));
+				dto.getProductDTO().setProdPrice(rs.getInt("PROD_PRICE"));
+				// 객체안에 있는 객체의 멤버필드 안에 값을 저장해서 가져옴
+				
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		
+		}
+		return list;
+	}
+	
+	
+	
 	public void cartInsert(CartDTO dto) {
-		sql="insert into cart (MEM_ID,PROD_NUM,CART_QTY,CART_PRICE) values (?,?,?,?)";
+		// 머지!!!
+		// cart랑 products를 비교하는것임.
+		// using뒤엔 무조건 있어야하는데
+		// cart랑 products 둘 다 있으면 update를 하고
+		// products 하나에만 있으면 insert 
+		sql=" merge into cart c "
+			+ " using (select PROD_NUM from products where PROD_NUM = ? ) p "
+			+ " on (c.PROD_NUM = p.PROD_NUM and c.MEM_ID = ? ) "
+			+ " when MATCHED then "
+			+ "                     update set CART_QTY = CART_QTY + ? ,"
+			+ "                                CART_PRICE = CART_PRICE + ? "
+			+ " when not MATCHED then "
+			+ " 					insert ( c.MEM_ID, c.PROD_NUM, c.CART_QTY, c.CART_PRICE ) "
+			+ " values (?,?,?,?)";
+		
 		getConnect();
 		try {
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, dto.getMemId());
-			pstmt.setString(2, dto.getProdNum());
+			
+			pstmt.setString(1, dto.getProdNum());
+			pstmt.setString(2, dto.getMemId());
 			pstmt.setString(3, dto.getCartQty());
 			pstmt.setInt(4, dto.getCartPrice());
+			
+			pstmt.setString(5, dto.getMemId());
+			pstmt.setString(6, dto.getProdNum());
+			pstmt.setString(7, dto.getCartQty());
+			pstmt.setInt(8, dto.getCartPrice());
 			int i=pstmt.executeUpdate();
 			System.out.println(i+"개 행이 저장되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	

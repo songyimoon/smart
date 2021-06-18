@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import controller.goods.GoodsListPage;
+
 public class MainController extends HttpServlet 
 							implements Servlet{
 	
@@ -21,6 +23,8 @@ public class MainController extends HttpServlet
 
 		
 		if(command.equals("/main.sm")) {
+			GoodsListPage action = new GoodsListPage();
+			action.goodsList(request);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("main/home.jsp");
 			dispatcher.forward(request, response);
 		}else if(command.equals("/login.sm")) {

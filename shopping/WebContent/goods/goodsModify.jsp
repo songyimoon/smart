@@ -27,7 +27,6 @@
 	<tr><th>배송비</th>
 		<td><input type="number" name="prodDelFee" min="0" step="1" value="${dto.prodDelFee }"/></td></tr>
 	<tr><th>추천상품</th>
-		
 		<td><input type="radio" name="recommend" value="Y" <c:if test="${dto.recommend.trim() == 'Y' }">checked</c:if>/>추천
 			<input type="radio" name="recommend" value="N" <c:if test="${dto.recommend.trim() == 'N' }">checked</c:if>/>비추천
 		</td></tr>
@@ -36,6 +35,7 @@
 	<tr><th colspan="2">
 			<input type="submit" value="상품 수정"/>
 			<input type="button" value="취소" onclick="javascript:history.back();"/>
+			<input type="button" value="삭제" onclick="javascript:location.href='prodDel.gd?prodNum=${dto.prodNum }'"/>
 			<input type="button" value="홈으로" onclick="javascript:location.href='main.sm'"/>
 	</th></tr>
 </table>

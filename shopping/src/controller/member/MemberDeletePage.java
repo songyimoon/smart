@@ -9,5 +9,6 @@ public class MemberDeletePage {
 		String memId = request.getParameter("memId");
 		MemberDAO dao = new MemberDAO();
 		dao.memdel(memId);
+
 	}
 }

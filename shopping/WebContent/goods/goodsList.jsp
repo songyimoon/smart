@@ -21,10 +21,8 @@
 	<tr><td><a href="prodDetail.gd?prodNum=${dto.prodNum }">${dto.prodNum }</a></td>
 		<td>${dto.ctgr }</td>
 		<td>${dto.prodName }</td>
-		<td>
-		<fmt:formatNumber value="${dto.prodPrice }" type="currency"/>
-		</td>
-		<td>${dto.prodDelFee }</td></tr>
+		<td><fmt:formatNumber value="${dto.prodPrice }" type="currency"/></td>
+		<td><fmt:formatNumber value="${dto.prodDelFee }" type="currency"/></td></tr>
 	</c:forEach>	
 </table>
 <a href="goodsRegist.gd">상품등록</a>

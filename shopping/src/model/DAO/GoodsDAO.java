@@ -155,7 +155,19 @@ public class GoodsDAO extends DataBaseInfo{
 		}
 		return dto;
 	}
-	
+
+//	PROD_NUM, 
+//	PROD_NAME, 
+//	PROD_PRICE, 
+//	PROD_IMAGE, 
+//	PROD_DETAIL, 
+//	PROD_CAPACITY, 
+//	PROD_SUPPLIER, 
+//	PROD_DEL_FEE, 
+//	RECOMMEND, 
+//	EMPLOYEE_ID, 
+//	CTGR;
+
 	
 	public List<ProductDTO> goodsList(){
 		List<ProductDTO> list = new ArrayList<ProductDTO>();
@@ -163,11 +175,12 @@ public class GoodsDAO extends DataBaseInfo{
 				+ "case CTGR when 'wear' then '의류' "
 				+ "when 'cosmetic' then '뷰티' "
 				+ "when 'food' then '식품' "
-				+ "when 'car' then '자동차용품' end CTGR1 from products"; 
+				+ "when 'car' then '자동차용품' end CTGR1 from products";
 		getConnect();
 		try {
 			pstmt=conn.prepareStatement(sql);
 			rs=pstmt.executeQuery();
+			
 			while (rs.next()) {
 				ProductDTO dto = new ProductDTO();
 				dto.setCtgr(rs.getString("CTGR1"));
@@ -183,6 +196,7 @@ public class GoodsDAO extends DataBaseInfo{
 				dto.setRecommend(rs.getString("RECOMMEND"));
 				list.add(dto);
 			}
+			
 		} catch (SQLException e) {		
 			e.printStackTrace();
 		}

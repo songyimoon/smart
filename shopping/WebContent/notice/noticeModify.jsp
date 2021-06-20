@@ -21,7 +21,16 @@
 	<tr><th>날짜</th>
 	<td>${dto.noticeDate } </td></tr>
 	<tr><th>공지종류</th>
-	<td><input type="text" name="noticeKind" value="${dto.noticeKind }"/></td></tr>
+	<td>
+	
+	<!-- <input type="text" name="noticeKind" value="${dto.noticeKind }"/></td></tr>
+	 -->
+	
+		<select name="noticeKind">
+		<option value="not">공지</option>
+		<option value="deliv">배송</option>	
+	</select></td></tr>
+	
 	<tr><th>첨부파일</th>
 	<td><input type="file" name="noticeFile" value="${dto.noticeFile }"/></td></tr>
 	<tr><th>조회수</th>

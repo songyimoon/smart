@@ -22,6 +22,7 @@ public void doProcess(HttpServletRequest request, HttpServletResponse response) 
 		action.goodsList(request);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("goods/goodsList.jsp");
 		dispatcher.forward(request, response);
+		
 	}else if(command.equals("/goodsRegist.gd")) {
 		GoodsNumberPage action = new GoodsNumberPage();
 		action.seqNum(request);
@@ -66,7 +67,6 @@ public void doProcess(HttpServletRequest request, HttpServletResponse response) 
 		dispatcher.forward(request, response);
 	}
 }
-	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
 		doProcess(req, resp);

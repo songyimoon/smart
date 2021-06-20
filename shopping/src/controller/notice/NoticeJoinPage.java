@@ -50,13 +50,11 @@ public class NoticeJoinPage {
 		dto.setNoticeDate(noticeDate);
 		dto.setNoticeFile(images);
 		dto.setNoticeHits(multi.getParameter("noticeHits"));
-		dto.setNoticeKind(multi.getParameter("noticekind"));
+		dto.setNoticeKind(multi.getParameter("noticeKind"));
 		dto.setNoticeNo(multi.getParameter("noticeNo"));
 		dto.setNoticeSub(multi.getParameter("noticeSub"));
 		NoticeDAO dao = new NoticeDAO();
 		dao.noticeInsert(dto);
-		
-		
 		
 		
 		

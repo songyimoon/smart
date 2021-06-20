@@ -13,7 +13,7 @@ public class NoticeDAO extends DataBaseInfo{
 
    final String COLUMNS = "NOTICE_NO, NOTICE_SUB, NOTICE_CON, NOTICE_DATE, NOTICE_KIND, NOTICE_FILE, NOTICE_HITS, EMPLOYEE_ID";
  
-   
+    
    public void noticeDel(String noticeNo) {
 	   sql = "delete from notice where NOTICE_NO = ?";
 	   getConnect();
@@ -26,8 +26,7 @@ public class NoticeDAO extends DataBaseInfo{
 		e.printStackTrace();
 	} finally {
 		close();
-	}
-	   
+	} 
    }
    
    
@@ -55,6 +54,10 @@ public class NoticeDAO extends DataBaseInfo{
    }
    
    public void noticeUpdate(NoticeDTO dto) {
+	  
+
+	   
+	   
 	   sql=" update notice set NOTICE_SUB = ?, NOTICE_CON = ?, NOTICE_KIND = ?, NOTICE_FILE = ?, NOTICE_HITS = ? where NOTICE_NO = ? ";
 	   getConnect();
 	   try {
@@ -78,7 +81,11 @@ public class NoticeDAO extends DataBaseInfo{
    
    public NoticeDTO noticeOne(String noticeNo) {
 	   NoticeDTO dto = null;
-	   sql = "select " + COLUMNS + " from notice where NOTICE_NO = ? ";
+	   
+	   sql = "select " + COLUMNS + ","
+	        	+ " case NOTICE_KIND when 'not' then '[공지]' "
+	        	+ " when 'deliv' then '[배송]' end NTK from notice "
+	        	+ " where NOTICE_NO = ? ";
 	   getConnect();
 	   try {
 		pstmt=conn.prepareStatement(sql);
@@ -91,7 +98,7 @@ public class NoticeDAO extends DataBaseInfo{
 			dto.setNoticeDate(rs.getDate("NOTICE_DATE"));
 			dto.setNoticeFile(rs.getString("NOTICE_FILE"));
 			dto.setNoticeHits(rs.getString("NOTICE_HITS"));
-			dto.setNoticeKind(rs.getString("NOTICE_KIND"));
+			dto.setNoticeKind(rs.getString("NTK"));
 			dto.setNoticeNo(rs.getString("NOTICE_NO"));
 			dto.setNoticeSub(rs.getString("NOTICE_SUB"));
 		}
@@ -106,7 +113,9 @@ public class NoticeDAO extends DataBaseInfo{
    
    public List<NoticeDTO> noticeList(){
       List<NoticeDTO> list = new ArrayList<NoticeDTO>();
-      sql = "select " + COLUMNS + " from notice";
+      sql = "select " + COLUMNS + ","
+      		+ " case NOTICE_KIND when 'not' then '[공지]' "
+      		+ " when 'deliv' then '[배송]' end NTK from notice";
       getConnect();
       try {
          pstmt=conn.prepareStatement(sql);
@@ -118,7 +127,7 @@ public class NoticeDAO extends DataBaseInfo{
             dto.setNoticeDate(rs.getDate("NOTICE_DATE"));
             dto.setNoticeFile(rs.getString("NOTICE_FILE"));
             dto.setNoticeHits(rs.getString("NOTICE_HITS"));;
-            dto.setNoticeKind(rs.getString("NOTICE_KIND"));
+            dto.setNoticeKind(rs.getString("NTK"));
             dto.setNoticeNo(rs.getString("NOTICE_NO"));
             dto.setNoticeSub(rs.getString("NOTICE_SUB"));
             list.add(dto);

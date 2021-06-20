@@ -4,12 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>상품등록페이지</title>
 </head>
 <body>
 <form action="goodsJoin.gd" method="post" name="frm" enctype="multipart/form-data">
 <!-- enctype을 정해주지 않으면 기본으로 application/x-222-form-urlencoded -->
-
 <table border=1 align=center>
 	<tr><th>상품번호</th>
 		<td><select name="ctgr">

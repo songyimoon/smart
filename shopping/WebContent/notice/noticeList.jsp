@@ -8,8 +8,8 @@
 <title>공지사항</title>
 </head>
 <body>
-공지사항 페이지입니다.<br/>
-<table border = 1>
+<h1 align="center">공지사항</h1><br/>
+<table border = 1 >
 <tr><th>번호</th>
 	<th>제목</th>
 	<th>내용</th>
@@ -27,9 +27,9 @@
 	<td>${dto.noticeFile }</td>
 	<td>${dto.noticeHits }</td>
 	<td>${dto.employeeId }</td></tr>
-
 </c:forEach>	
 </table>
+<br/>
 <a href="noticeRegist.nt">공지등록</a>
 </body>
 </html>

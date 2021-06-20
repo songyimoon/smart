@@ -41,7 +41,7 @@ public class GoodsDAO extends DataBaseInfo{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		} 
 		return list;
 	}
 	

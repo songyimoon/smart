@@ -4,10 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지 등록 페이지</title>
 </head>
 <body>
-공지 등록 페이지
 <form action="noticeJoin.nt" method="post" name="frm" enctype="multipart/form-data">
 <table border = 1>
 	<tr><th>번호</th>
@@ -19,7 +18,7 @@
 	<tr><th>날짜</th>
 	<td><input type="date" name="noticeDate" /></td></tr>
 	<tr><th>공지종류</th>
-	<td><input type="text" name="noticeKind"/></td></tr>
+	<td><input type="text" name="noticeKind" /></td></tr>
 	<tr><th>첨부파일</th>
 	<td><input type="file" name="noticeFile"/></td></tr>
 	<tr><th>조회수</th>

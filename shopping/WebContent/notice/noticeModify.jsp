@@ -19,7 +19,7 @@
 	<tr><th>내용</th>
 	<td><textarea rows="10" cols="50" name="noticeCon" > ${dto.noticeCon }</textarea></td></tr>
 	<tr><th>날짜</th>
-	<td>${noticeDate } </td></tr>
+	<td>${dto.noticeDate } </td></tr>
 	<tr><th>공지종류</th>
 	<td><input type="text" name="noticeKind" value="${dto.noticeKind }"/></td></tr>
 	<tr><th>첨부파일</th>
@@ -30,12 +30,12 @@
 	<td>${dto.employeeId }</td></tr>
 	
 	<tr><th colspan="2">
-		<input type="submit" value="수정"/>
-		<input type="reset" value="취소" onclick="javascript:history.back();"/>
+		<input type="submit" value="공지수정"/>
+		<input type="button" value="취소" onclick="javascript:history.back();"/>
+		<input type="button" value="삭제" onclick="javascript:location.href='noticeDel.nt?noticeNo=${dto.noticeNo}'"/>
 		<input type="button" value="홈으로" onclick="javascript:location.href='main.sm'"/>
 
 </table>
-
 </form>
 
 </body>

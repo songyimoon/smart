@@ -36,16 +36,17 @@ public void doProcess(HttpServletRequest request, HttpServletResponse response) 
 		GoodsModifyPage action = new GoodsModifyPage();
 		action.goodsModify(request);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("goods/goodsModify.jsp");
-		dispatcher.forward(request, response);
-		
+		dispatcher.forward(request, response);		
 	}else if (command.equals("/goodsModify.gd")) {
 		GoodsUpdatePage action = new GoodsUpdatePage();
 		action.goodsUpdate(request);
 		response.sendRedirect("goodsList.gd");
+		
 	}else if (command.equals("/prodDel.gd")) {
 		GoodsDeletePage action = new GoodsDeletePage();
 		action.goodsDel(request);
 		response.sendRedirect("goodsList.gd");
+		
 	}else if (command.equals("/prodInfo.gd")){
 		response.setCharacterEncoding("utf-8");
 		GoodsModifyPage action = new GoodsModifyPage(); // 상세보기

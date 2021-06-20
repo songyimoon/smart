@@ -6,11 +6,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.DTO.NoticeDTO;
+import oracle.net.aso.l;
 import sun.security.timestamp.TSRequest;
 
 public class NoticeDAO extends DataBaseInfo{
 
    final String COLUMNS = "NOTICE_NO, NOTICE_SUB, NOTICE_CON, NOTICE_DATE, NOTICE_KIND, NOTICE_FILE, NOTICE_HITS, EMPLOYEE_ID";
+ 
+   
+   public void noticeDel(String noticeNo) {
+	   sql = "delete from notice where NOTICE_NO = ?";
+	   getConnect();
+	   try {
+		pstmt=conn.prepareStatement(sql);
+		pstmt.setString(1, noticeNo);
+		int i = pstmt.executeUpdate();
+		System.out.println(i+"개 행이 삭제되었습니다.");
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} finally {
+		close();
+	}
+	   
+   }
    
    
    public void noticeInsert(NoticeDTO dto) {
@@ -34,8 +52,29 @@ public class NoticeDAO extends DataBaseInfo{
       } finally {
          close();
       }
-      
    }
+   
+   public void noticeUpdate(NoticeDTO dto) {
+	   sql=" update notice set NOTICE_SUB = ?, NOTICE_CON = ?, NOTICE_KIND = ?, NOTICE_FILE = ?, NOTICE_HITS = ? where NOTICE_NO = ? ";
+	   getConnect();
+	   try {
+		pstmt=conn.prepareStatement(sql);
+		pstmt.setString(1, dto.getNoticeSub());
+		pstmt.setString(2, dto.getNoticeCon());
+		pstmt.setString(3, dto.getNoticeKind());
+		pstmt.setString(4, dto.getNoticeFile());
+		pstmt.setString(5, dto.getNoticeHits());
+		pstmt.setString(6, dto.getNoticeNo());
+		int i = pstmt.executeUpdate();
+		System.out.println(i+"개 행이 수정되었습니다.");
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} finally {
+		close();
+	}
+	   
+   }
+   
    
    public NoticeDTO noticeOne(String noticeNo) {
 	   NoticeDTO dto = null;
@@ -108,5 +147,4 @@ public class NoticeDAO extends DataBaseInfo{
       }
       return noticeNo;
    }
-   
 }

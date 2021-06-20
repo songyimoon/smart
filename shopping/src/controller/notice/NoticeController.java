@@ -47,9 +47,12 @@ public class NoticeController extends HttpServlet
 		NoticeUpdatePage action = new NoticeUpdatePage();
 		action.noticeUpdate(request);
 		response.sendRedirect("noticeList.nt");
-	}
-	
-	} 
+	}else if(command.equals("/noticeDel.nt")) {
+		NoticeDelPage action = new NoticeDelPage();
+		action.noticeDel(request);
+		response.sendRedirect("noticeList.nt");
+	}	
+} 
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

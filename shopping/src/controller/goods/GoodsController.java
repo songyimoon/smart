@@ -29,15 +29,18 @@ public void doProcess(HttpServletRequest request, HttpServletResponse response) 
 		response.setCharacterEncoding("utf-8");
 		RequestDispatcher dispatcher = request.getRequestDispatcher("goods/goodsJoin.jsp");
 		dispatcher.forward(request, response);
+		
 	}else if (command.equals("/goodsJoin.gd")) {
 		GoodsJoinPage action = new GoodsJoinPage();
 		action.goodsJoin(request);
 		response.sendRedirect("goodsList.gd");
+		
 	}else if (command.equals("/prodDetail.gd")) {
 		GoodsModifyPage action = new GoodsModifyPage();
 		action.goodsModify(request);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("goods/goodsModify.jsp");
 		dispatcher.forward(request, response);		
+		
 	}else if (command.equals("/goodsModify.gd")) {
 		GoodsUpdatePage action = new GoodsUpdatePage();
 		action.goodsUpdate(request);
@@ -50,7 +53,7 @@ public void doProcess(HttpServletRequest request, HttpServletResponse response) 
 		
 	}else if (command.equals("/prodInfo.gd")){
 		response.setCharacterEncoding("utf-8");
-		GoodsModifyPage action = new GoodsModifyPage(); // 상세보기
+		GoodsModifyPage action = new GoodsModifyPage(); 
 		action.goodsModify(request);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("goods/goodsDetail.jsp");
 		dispatcher.forward(request, response);
@@ -61,10 +64,27 @@ public void doProcess(HttpServletRequest request, HttpServletResponse response) 
 		response.sendRedirect("goodsCartList.gd");
 		
 	}else if(command.equals("/goodsCartList.gd")) {
-		GoodsCartList cartList = new GoodsCartList();
+		GoodsCartListPage cartList = new GoodsCartListPage();
 		cartList.cartList(request);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("goods/goodsCart.jsp");
 		dispatcher.forward(request, response);
+		
+	}else if(command.equals("/goodsCartQtyDown.gd")) {
+		GoodsCartQtyDownPage action = new GoodsCartQtyDownPage();
+		action.cartQtyDown(request);
+		response.sendRedirect("goodsCartList.gd");
+		
+	}else if(command.equals("/cartProdDel.gd")) {
+		GoodsCartProdDelPage action = new GoodsCartProdDelPage();
+		action.cartProdDel(request);
+		response.sendRedirect("goodsCartList.gd");
+		
+	}else if(command.equals("/goodsBuy.gd")) {
+		GoodsBuyPage action=new GoodsBuyPage();
+		action.goodsBuy(request);
+		RequestDispatcher dispatcher=request.getRequestDispatcher("goods/order.jsp");
+		dispatcher.forward(request, response);
+		
 	}
 }
 	@Override

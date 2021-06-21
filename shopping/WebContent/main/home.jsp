@@ -89,7 +89,7 @@
 	
 		<td><a href="javascript:goodsBuy('${dto.prodNum}')">
 			
-			<img width = "200" height="180" src="goods/upload/${dto.prodImage.split(',')[0] }"><br/>
+			<img width = "300" height="300" src="goods/upload/${dto.prodImage.split(',')[0] }"><br/>
 			${dto.prodName }<br/>
 			가격: <fmt:formatNumber value="${dto.prodPrice }" type="currency"/>
 			

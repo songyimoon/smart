@@ -13,6 +13,83 @@ public class GoodsDAO extends DataBaseInfo{
 	final String COLUMNS = "PROD_NUM, PROD_NAME, PROD_PRICE, PROD_IMAGE, PROD_DETAIL, PROD_CAPACITY, "
 							+ "PROD_SUPPLIER, PROD_DEL_FEE, RECOMMEND, EMPLOYEE_ID, CTGR";
 	
+	public ProductCartDTO prodCart(String prodNum, String memId) {
+		ProductCartDTO dto = null;
+		
+		sql="select p.PROD_NUM , PROD_NAME, PROD_PRICE, "
+				+ "	  PROD_SUPPLIER, PROD_DEL_FEE, PROD_IMAGE,"
+				+ "       MEM_ID, CART_QTY, CART_PRICE" 
+				+ " from products p, cart c" 
+				+ " where p.PROD_NUM = c.PROD_NUM "
+				+ " and MEM_ID = ? and c.PROD_NUM = ?"; 
+
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, memId);
+			pstmt.setString(2, prodNum);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				dto=new ProductCartDTO();
+				dto.setCartDTO(new CartDTO());
+				dto.setProductDTO(new ProductDTO());				
+				dto.getProductDTO().setProdNum(rs.getString("PROD_NUM"));				
+				dto.getCartDTO().setCartPrice(rs.getInt("CART_PRICE"));
+				dto.getCartDTO().setCartQty(rs.getString("CART_QTY"));				
+				dto.getProductDTO().setProdSupplier(rs.getString("PROD_SUPPLIER"));
+				dto.getProductDTO().setProdDelFee(rs.getString("PROD_DEL_FEE"));
+				dto.getProductDTO().setProdImage(rs.getString("PROD_IMAGE"));
+				dto.getProductDTO().setProdName(rs.getString("PROD_NAME"));
+				dto.getProductDTO().setProdPrice(rs.getInt("PROD_PRICE"));
+			}
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		return dto;
+	}
+	// 장바구니는 모든 데이터를 다 가져오는데 cartList 
+	// 구매는 선택한 것에 대한 데이터만 가져와야한다는 차이점이 있다.
+	
+	public void cartProdDel(CartDTO dto) {
+		sql="delete from cart where MEM_ID=? and PROD_NUM = ?";
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getMemId());
+			pstmt.setString(2, dto.getProdNum());
+			int i = pstmt.executeUpdate();
+			System.out.println(i+"개 행이 삭제되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
+	
+	
+	public void cartQtyDown(CartDTO dto) {
+		sql="update cart set CART_QTY = CART_QTY - ?, CART_PRICE = CART_PRICE - ? where MEM_ID = ? and PROD_NUM = ? ";
+
+		
+		getConnect();	
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, 1); // 1개 감소니까 그냥 1을 써도 된다. sql문에 그냥 -1을 해도 상관없음.
+			pstmt.setInt(2, dto.getCartPrice());
+			pstmt.setString(3, dto.getMemId());
+			pstmt.setString(4, dto.getProdNum());
+			int i =pstmt.executeUpdate();
+			System.out.println(i+"개 행이 수정되었습니다.");
+		} catch (SQLException e) {		
+			e.printStackTrace();
+		} finally {
+			close();
+		}	
+	}
+	
 	
 	public List cartList(String memId) {
 		List list = new ArrayList();
@@ -28,9 +105,11 @@ public class GoodsDAO extends DataBaseInfo{
 				ProductCartDTO dto=new ProductCartDTO();
 				dto.setCartDTO(new CartDTO());
 				dto.setProductDTO(new ProductDTO());
-				dto.getCartDTO().setCartPrice(rs.getInt("CART_PRICE"));
-				dto.getCartDTO().setCartQty(rs.getString("CART_QTY"));
+				// 추가
+				dto.getProductDTO().setProdNum(rs.getString("PROD_NUM"));
 				
+				dto.getCartDTO().setCartPrice(rs.getInt("CART_PRICE"));
+				dto.getCartDTO().setCartQty(rs.getString("CART_QTY"));				
 				dto.getProductDTO().setProdSupplier(rs.getString("PROD_SUPPLIER"));
 				dto.getProductDTO().setProdDelFee(rs.getString("PROD_DEL_FEE"));
 				dto.getProductDTO().setProdImage(rs.getString("PROD_IMAGE"));
@@ -41,7 +120,9 @@ public class GoodsDAO extends DataBaseInfo{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		} finally {
+			close();
+		}
 		return list;
 	}
 	
@@ -64,13 +145,11 @@ public class GoodsDAO extends DataBaseInfo{
 		
 		getConnect();
 		try {
-			pstmt=conn.prepareStatement(sql);
-			
+			pstmt=conn.prepareStatement(sql);		
 			pstmt.setString(1, dto.getProdNum());
 			pstmt.setString(2, dto.getMemId());
 			pstmt.setString(3, dto.getCartQty());
 			pstmt.setInt(4, dto.getCartPrice());
-			
 			pstmt.setString(5, dto.getMemId());
 			pstmt.setString(6, dto.getProdNum());
 			pstmt.setString(7, dto.getCartQty());
@@ -79,6 +158,8 @@ public class GoodsDAO extends DataBaseInfo{
 			System.out.println(i+"개 행이 저장되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 	}
 	
@@ -156,19 +237,7 @@ public class GoodsDAO extends DataBaseInfo{
 		return dto;
 	}
 
-//	PROD_NUM, 
-//	PROD_NAME, 
-//	PROD_PRICE, 
-//	PROD_IMAGE, 
-//	PROD_DETAIL, 
-//	PROD_CAPACITY, 
-//	PROD_SUPPLIER, 
-//	PROD_DEL_FEE, 
-//	RECOMMEND, 
-//	EMPLOYEE_ID, 
-//	CTGR;
-
-	
+ 
 	public List<ProductDTO> goodsList(){
 		List<ProductDTO> list = new ArrayList<ProductDTO>();
 		sql="select " + COLUMNS + ","
@@ -199,6 +268,8 @@ public class GoodsDAO extends DataBaseInfo{
 			
 		} catch (SQLException e) {		
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 		return list;
 	}

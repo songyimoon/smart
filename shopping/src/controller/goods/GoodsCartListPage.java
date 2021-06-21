@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import model.DAO.GoodsDAO;
 import model.DTO.AuthInfo;
 
-public class GoodsCartList {
+public class GoodsCartListPage {
 	public void cartList(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		AuthInfo authInfo = (AuthInfo)session.getAttribute("authInfo");

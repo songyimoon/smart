@@ -7,7 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
- 결제되었습니다.<br/>
-
+결제되었습니다.<br/>
+${authInfo.userId }님 ${1000 }원이 결제되었습니다.
+<a href="#">구매리스트</a>
 </body>
 </html>

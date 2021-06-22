@@ -83,9 +83,36 @@ public void doProcess(HttpServletRequest request, HttpServletResponse response) 
 		GoodsBuyPage action=new GoodsBuyPage();
 		action.goodsBuy(request);
 		RequestDispatcher dispatcher=request.getRequestDispatcher("goods/order.jsp");
-		dispatcher.forward(request, response);
+		dispatcher.forward(request, response);	
 		
+	}else if (command.equals("/goodsOrder.gd")) {
+		GoodsOrderPage action = new GoodsOrderPage();
+		String [] purchaseNum=action.goodsOrder(request).split(",");	
+		response.sendRedirect("paymentOk.gd?purchaseNum?="+purchaseNum[0]+"&purchaseTotPrice="+purchaseNum[1]);
+		//배열 첫번째값은 purcaseNum 두번째값은 totPrice
+		
+	}else if (command.equals("/purchaseCon.gd")) {
+		PurchaseListConPage action = new PurchaseListConPage();
+		action.purchaseList(request);
+		RequestDispatcher dispatcher=request.getRequestDispatcher("goods/purchaseCon.jsp");
+		dispatcher.forward(request, response);		
+		
+	}else if (command.equals("/paymentOk.gd")) {	 
+		request.setAttribute("purchaseNum", request.getParameter("purchaseNum"));
+		request.setAttribute("purchaseTotPrice", request.getParameter("purchaseTotPrice"));
+		
+		RequestDispatcher dispatcher=request.getRequestDispatcher("goods/payment.jsp");
+		dispatcher.forward(request, response);		
+		
+	}else if(command.equals("/doPayment.gd")) {
+		PaymentPage action = new PaymentPage();
+		action.payment(request);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("goods/buyFinished.jsp");
+		dispatcher.forward(request, response);
 	}
+	
+	
+	
 }
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		

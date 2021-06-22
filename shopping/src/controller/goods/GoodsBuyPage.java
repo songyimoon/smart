@@ -22,7 +22,6 @@ public class GoodsBuyPage {
 		GoodsDAO dao = new GoodsDAO();
 		for(String prodNum : prodNums ) {
 			ProductCartDTO dto = dao.prodCart(prodNum, memId);
-			// index없을때는 이렇게 가져올 수 없다 (프라이머리키는 자동으로 인덱스가 만들어지지)
 			list.add(dto);
 		}
 		request.setAttribute("list", list);

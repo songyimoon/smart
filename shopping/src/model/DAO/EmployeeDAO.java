@@ -197,6 +197,7 @@ public class EmployeeDAO {
 	public int getEmpNo() { 
 		getConnect(); 
 		sql="select nvl(max(employee_id), 10000)+1 from employees"; 
+		// max 사용하는 번호 할당 방법은 중복값이 부여된다는 문제가 있을 수 있다.
 		try {
 			pstmt = conn.prepareStatement(sql); 
 			rs = pstmt.executeQuery();

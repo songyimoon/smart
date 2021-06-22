@@ -12,8 +12,7 @@
 <h1>주문서</h1>
 <hr />
 1. 주문 상품 <br />
-<form action="#" method="post">
-
+<form action="goodsOrder.gd" method="post">
 <table width="600" >
 	<tr><td colspan="2">상품정보</td>
 		<td>적용금액</td>
@@ -26,7 +25,7 @@
 	
 <c:forEach items="${list }" var="dto">	
 	<tr><td>
-		<img src="goods/upload/${dto.productDTO.prodImage.split(',')[0] }" width="50"/>
+		<img src="goods/upload/${dto.productDTO.prodImage.split(',')[0] }" width="60"/>
 		</td>
 		<td>상품명<br/>
 		
@@ -57,8 +56,8 @@
 		</td></tr>
 </table>
 
-
-
+<hr />
+2. 배송 정보
 <table>
 	<tr><td>이름</td><td><input type="text" name="receiverName"></td></tr>
 	<tr><td>주소</td><td><input type="text" name="purchaseAddr"></td></tr>

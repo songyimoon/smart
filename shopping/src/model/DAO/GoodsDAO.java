@@ -5,17 +5,167 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.DTO.CartDTO;
+import model.DTO.OrderListDTO;
+import model.DTO.PaymentDTO;
 import model.DTO.ProductCartDTO;
 import model.DTO.ProductDTO;
+import model.DTO.PurchaseDTO;
+import oracle.net.aso.l;
 
 public class GoodsDAO extends DataBaseInfo{
 	
 	final String COLUMNS = "PROD_NUM, PROD_NAME, PROD_PRICE, PROD_IMAGE, PROD_DETAIL, PROD_CAPACITY, "
 							+ "PROD_SUPPLIER, PROD_DEL_FEE, RECOMMEND, EMPLOYEE_ID, CTGR";
 	
-	public ProductCartDTO prodCart(String prodNum, String memId) {
-		ProductCartDTO dto = null;
+	
+	public void payment(PaymentDTO dto) {
+		String num = " select to_char(sysdate,'yyyymmdd') || "
+					+ " nvl2(max(PAYMENT_APPR_NUM),substr(max(PAYMENT_APPR_NUM),-6),100000)+1 "
+					+ " from payment "
+					+ "	where substr(PAYMENT_APPR_NUM,1,8) = to_char(sysdate,'yyyymmdd')";
 		
+		// 날마다 갱신하는 쿼리문
+		sql=" insert into payment ( PURCHASE_NUM, PAYMENT_METHOD, PAYMENT_APPR_PRICE, PAYMENT_APPR_NUM, PAYMENT_APPR_DATE, PAYMENT_NUMBER )"
+				+ " values (?,?,?, ( "+num+" ) ,sysdate,? )";		
+		getConnect();		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getPurchaseNum());
+			pstmt.setString(2, dto.getPaymentMethod());
+			pstmt.setString(3, dto.getPaymentApprPrice());
+			pstmt.setString(4, dto.getPaymentNumber());
+			int i = pstmt.executeUpdate();
+			System.out.println(i+"개 행이 저장되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
+	
+	
+	
+	
+	public List<OrderListDTO> orderList(String memId){
+		List<OrderListDTO> list = new ArrayList<OrderListDTO>();
+		sql=" select PURCHASE_DATE, PAYMENT_APPR_NUM, pro.PROD_NUM, pur.PURCHASE_NUM, PROD_NAME, PROD_SUPPLIER, PURCHASE_TOT_PRICE, PROD_IMAGE "  
+			+ " from products pro, purchase pur, purchase_list purlst, payment pay "  
+			+ " where pur.PURCHASE_NUM = purlst.PURCHASE_NUM "
+			+ " and pro.PROD_NUM = purlst.PROD_NUM "
+			+ " and pur.PURCHASE_NUM = pay.PURCHASE_NUM(+) "
+			+ " and mem_id = ? " 
+			+ " order by PURCHASE_NUM desc ";	
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, memId);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				OrderListDTO dto = new OrderListDTO();
+				dto.setPurchaseDate(rs.getString("PURCHASE_DATE"));
+				dto.setPaymentApprNum(rs.getString("PAYMENT_APPR_NUM"));
+				dto.setProdImage(rs.getString("PROD_IMAGE"));
+				dto.setProdName(rs.getString("PROD_NAME"));
+				dto.setProdNum(rs.getString("PROD_NUM"));
+				dto.setProdSupplier(rs.getString("PROD_SUPPLIER"));
+				dto.setPurchaseNum(rs.getString("PURCHASE_NUM"));
+				dto.setPurchaseTotPrice(rs.getString("PURCHASE_TOT_PRICE"));
+				list.add(dto);
+			}		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return list;
+	}
+	
+	
+		
+	public void cartDel(String prodNum, String memId) {
+		sql = " delete from cart "
+			   + " where MEM_ID=? and PROD_NUM = ? ";
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, memId);
+			pstmt.setString(2, prodNum);
+			int i = pstmt.executeUpdate();
+			System.out.println(i+"개 행이 삭제되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
+	public void cartProdDel(CartDTO dto) {
+		sql="delete from cart where MEM_ID=? and PROD_NUM = ?";
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getMemId());
+			pstmt.setString(2, dto.getProdNum());
+			int i = pstmt.executeUpdate();
+			System.out.println(i+"개 행이 삭제되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
+	public void purchaseInsert(PurchaseDTO dto) {	
+		sql = " insert into purchase (PURCHASE_NUM,MEM_ID,"
+				+ " PURCHASE_TOT_PRICE, PURCHASE_ADDR, PURCHASE_METHOD,"
+				+ " PURCAHSE_REQUEST,RECEIVER_NAME,RECEIVER_PHONE,"
+				+ " PURCHASE_DATE) "
+				+ " values(?,?,?,?,?,?,?,?,sysdate)";
+		getConnect();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getPurchaseNum());
+			pstmt.setString(2, dto.getMemId());
+			pstmt.setString(3, dto.getPurchaseTotPrice());
+			pstmt.setString(4, dto.getPurchaseAddr());
+			pstmt.setString(5, dto.getPurchaseMethod());
+			pstmt.setString(6, dto.getPurchaseRequest());
+			pstmt.setString(7, dto.getReceiverName());
+			pstmt.setString(8, dto.getReceiverPhone());
+			int i = pstmt.executeUpdate();
+			System.out.println(i+"개 행이 저장되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}		
+	}
+	
+	public void purchaseListInsert(String purchaseNum, String prodNum, String memId) {
+		sql="insert into purchase_list (PURCHASE_NUM, PROD_NUM, PURCHASE_QTY, PURCHASE_PRICE ) "
+				+ " select ?, PROD_NUM, CART_QTY, CART_PRICE "
+				+ " from cart "
+				+ " where PROD_NUM = ? and MEM_ID = ? ";
+		//카트에 모든 정보가 있다. 구매리스트와 다른점은 구매번호가 있냐 없냐 뿐이므로, 구매번호만 추가해주면 구매리스트가 된다.
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, purchaseNum);
+			pstmt.setString(2, prodNum);
+			pstmt.setString(3, memId);
+			int i = pstmt.executeUpdate();
+			System.out.println(i+"개 행이 저장되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}		
+	}
+	
+	
+	public ProductCartDTO prodCart(String prodNum, String memId) {
+		ProductCartDTO dto = null;	
 		sql="select p.PROD_NUM , PROD_NAME, PROD_PRICE, "
 				+ "	  PROD_SUPPLIER, PROD_DEL_FEE, PROD_IMAGE,"
 				+ "       MEM_ID, CART_QTY, CART_PRICE" 
@@ -52,28 +202,12 @@ public class GoodsDAO extends DataBaseInfo{
 	// 장바구니는 모든 데이터를 다 가져오는데 cartList 
 	// 구매는 선택한 것에 대한 데이터만 가져와야한다는 차이점이 있다.
 	
-	public void cartProdDel(CartDTO dto) {
-		sql="delete from cart where MEM_ID=? and PROD_NUM = ?";
-		getConnect();
-		try {
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, dto.getMemId());
-			pstmt.setString(2, dto.getProdNum());
-			int i = pstmt.executeUpdate();
-			System.out.println(i+"개 행이 삭제되었습니다.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-	}
+
 	
 	
 	
 	public void cartQtyDown(CartDTO dto) {
 		sql="update cart set CART_QTY = CART_QTY - ?, CART_PRICE = CART_PRICE - ? where MEM_ID = ? and PROD_NUM = ? ";
-
-		
 		getConnect();	
 		try {
 			pstmt=conn.prepareStatement(sql);
@@ -97,6 +231,8 @@ public class GoodsDAO extends DataBaseInfo{
 				+ " CART_PRICE, CART_QTY " 
 				+ " from products p, cart c " 
 				+ " where p.PROD_NUM = c.PROD_NUM and c.MEM_ID = ? ";
+		// cart에는 MEM_ID랑 c.PROD_NUM이 PRIMARY로 묶여있어서 인덱스임. 인덱스가 아닐 때 이렇게 가져오면 과부하걸린다.
+		// 오라클에서 CART 제약조건 조회하면, 두개 필드가 묶여서 프라이머리키로 나옴
 		getConnect();
 		try {
 			pstmt=conn.prepareStatement(sql);			pstmt.setString(1, memId);

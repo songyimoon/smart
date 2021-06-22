@@ -17,6 +17,5 @@ public class PurchaseListConPage {
 		GoodsDAO dao = new GoodsDAO();
 		List<OrderListDTO> list = dao.orderList(memId);
 		request.setAttribute("list", list);
-		
 	}
 }

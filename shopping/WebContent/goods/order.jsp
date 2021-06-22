@@ -13,11 +13,11 @@
 <hr />
 1. 주문 상품 <br />
 <form action="goodsOrder.gd" method="post">
-<table width="600" >
-	<tr><td colspan="2">상품정보</td>
-		<td>적용금액</td>
-		<td>판매자</td>
-		<td>배송비</td></tr>
+<table width="800" border="1">
+	<tr><th colspan="2">상품정보</th>
+		<th>적용금액</th>
+		<th>판매자</th>
+		<th>배송비</th></tr>
 		
 <c:set var="cartPrice" value="0"/>	
 <c:set var="prodDelFee" value="0"/>		
@@ -25,7 +25,7 @@
 	
 <c:forEach items="${list }" var="dto">	
 	<tr><td>
-		<img src="goods/upload/${dto.productDTO.prodImage.split(',')[0] }" width="60"/>
+		<img src="goods/upload/${dto.productDTO.prodImage.split(',')[0] }" width="70"/>
 		</td>
 		<td>상품명<br/>
 		
@@ -53,6 +53,7 @@
 		<td>최종결제금액<br />${cartPrice + prodDelFee }
 		<input type="hidden" name="purchaseTotPrice" value="${cartPrice + prodDelFee }"/>
 		<input type="hidden" name="prodNums" value="${prodNums }"/>
+		
 		</td></tr>
 </table>
 
@@ -72,7 +73,8 @@
 		</td></tr>
 </table>
 <table>
-<tr><td><input type="submit" value="결제하기" name=""/></td></tr>
+<tr><td><input type="submit" value="결제하기" name=""/>
+		<input type="button" value="홈으로" onclick="javascript:location.href='main.sm'"/></td></tr>
 </table>
 </form>
 </body>

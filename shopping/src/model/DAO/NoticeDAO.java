@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.DTO.NoticeDTO;
-import oracle.net.aso.l;
-import sun.security.timestamp.TSRequest;
+
 
 public class NoticeDAO extends DataBaseInfo{
 
@@ -56,7 +55,6 @@ public class NoticeDAO extends DataBaseInfo{
    public void noticeUpdate(NoticeDTO dto) {
 	  
 
-	   
 	   
 	   sql=" update notice set NOTICE_SUB = ?, NOTICE_CON = ?, NOTICE_KIND = ?, NOTICE_FILE = ?, NOTICE_HITS = ? where NOTICE_NO = ? ";
 	   getConnect();

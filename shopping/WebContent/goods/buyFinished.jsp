@@ -8,7 +8,8 @@
 </head>
 <body>
 결제되었습니다.<br/>
-${authInfo.userId }님 ${1000 }원이 결제되었습니다.
-<a href="#">구매리스트</a>
+${authInfo.userId }님 ${money }원이 결제되었습니다.
+<a href="purchaseCon.gd">구매리스트</a>
+
 </body>
 </html>

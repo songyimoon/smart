@@ -16,7 +16,7 @@
 	<tr><th>내용</th>
 	<td><textarea rows="10" cols="50" name="noticeCon"></textarea></td></tr>
 	<tr><th>날짜</th>
-	<td><input type="date" name="noticeDate" /></td></tr>
+	<td><input type="date" name="noticeDate" />  </td></tr>
 	
 	
 	<tr><th>공지종류</th>

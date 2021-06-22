@@ -53,7 +53,7 @@
 		<a href="myPage.mem">마이페이지</a> 	
 		<a href="noticeListMem.nt">공지사항</a>	
 		<a href="goodsCartList.gd">장바구니</a>
-		<a href="purchaseCon.gd">주문확인</a>
+		<a href="purchaseCon.gd">구매리스트</a>
 	</c:if>
 	
 	<c:if test="${authInfo.grade != 1 }">

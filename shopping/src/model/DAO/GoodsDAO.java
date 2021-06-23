@@ -10,6 +10,7 @@ import model.DTO.PaymentDTO;
 import model.DTO.ProductCartDTO;
 import model.DTO.ProductDTO;
 import model.DTO.PurchaseDTO;
+import model.DTO.ReviewDTO;
 
 
 public class GoodsDAO extends DataBaseInfo{
@@ -17,6 +18,75 @@ public class GoodsDAO extends DataBaseInfo{
 	final String COLUMNS = "PROD_NUM, PROD_NAME, PROD_PRICE, PROD_IMAGE, PROD_DETAIL, PROD_CAPACITY, "
 							+ "PROD_SUPPLIER, PROD_DEL_FEE, RECOMMEND, EMPLOYEE_ID, CTGR";
 	
+	
+	
+	
+	
+	
+	public void reviewUpdate(ReviewDTO dto) {
+		sql="update review set REVIEW_CONTENT = ? "
+				+ " where PROD_NUM = ? and PURCHASE_NUM = ? ";	
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getReviewContent());
+			pstmt.setString(2, dto.getProdNum());
+			pstmt.setString(3, dto.getPurchaseNum());
+			int i = pstmt.executeUpdate();
+			System.out.println(i+"개 행이 수정되었습니다. (리뷰)");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
+	
+	public void reviewSelect(ReviewDTO dto) {
+		sql = "select PURCHASE_NUM, PROD_NUM, REVIEW_DATE, REVIEW_CONTENT, REVIEW_IMG from review "
+				+ " where PURCHASE_NUM = ? and PROD_NUM = ? ";
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getPurchaseNum());
+			pstmt.setString(2, dto.getProdNum());
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				dto.setProdNum(rs.getString("PROD_NUM"));
+				dto.setPurchaseNum(rs.getString("PURCHASE_NUM"));
+				dto.setReviewDate(rs.getString("REVIEW_DATE"));
+				dto.setReviewContent(rs.getString("REVIEW_CONTENT"));
+				dto.setReviewImg(rs.getString("REVIEW_IMG"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+	}
+	
+	
+	
+	public void reviewInsert(ReviewDTO dto) {
+		sql="insert into review (PURCHASE_NUM, PROD_NUM, REVIEW_DATE, REVIEW_CONTENT, REVIEW_IMG ) "
+				+ "	values (?,?,sysdate,?,?)  ";
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getPurchaseNum());
+			pstmt.setString(2, dto.getProdNum());
+			pstmt.setString(3, dto.getReviewContent());
+			pstmt.setString(4, dto.getReviewImg());
+			int i = pstmt.executeUpdate();
+			System.out.println(i+"개 행이 저장되었습니다.(리뷰)");
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+	}
 	
 	public void payment(PaymentDTO dto) {
 		String num = " select to_char(sysdate,'yyyymmdd') || "
@@ -35,7 +105,7 @@ public class GoodsDAO extends DataBaseInfo{
 			pstmt.setString(3, dto.getPaymentApprPrice());
 			pstmt.setString(4, dto.getPaymentNumber());
 			int i = pstmt.executeUpdate();
-			System.out.println(i+"개 행이 저장되었습니다.");
+			System.out.println(i+"개 행이 저장되었습니다.(결제)");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -49,11 +119,13 @@ public class GoodsDAO extends DataBaseInfo{
 	
 	public List<OrderListDTO> orderList(String memId){
 		List<OrderListDTO> list = new ArrayList<OrderListDTO>();
-		sql=" select PURCHASE_DATE, PAYMENT_APPR_NUM, pro.PROD_NUM, pur.PURCHASE_NUM, PROD_NAME, PROD_SUPPLIER, PURCHASE_TOT_PRICE, PROD_IMAGE "  
-			+ " from products pro, purchase pur, purchase_list purlst, payment pay "  
+		sql=" select PURCHASE_DATE, PAYMENT_APPR_NUM, pro.PROD_NUM, pur.PURCHASE_NUM, PROD_NAME, PROD_SUPPLIER, PURCHASE_TOT_PRICE, PROD_IMAGE, "
+			+ " REVIEW_CONTENT "  // 리뷰테이블 추가
+			+ " from products pro, purchase pur, purchase_list purlst, payment pay, review r "  // 리뷰테이블 추가
 			+ " where pur.PURCHASE_NUM = purlst.PURCHASE_NUM "
 			+ " and pro.PROD_NUM = purlst.PROD_NUM "
 			+ " and pur.PURCHASE_NUM = pay.PURCHASE_NUM(+) "
+			+ " and pur.PURCHASE_NUM = r.PURCHASE_NUM(+) " // 리뷰 조인 추가
 			+ " and mem_id = ? " 
 			+ " order by PURCHASE_NUM desc ";	
 		getConnect();
@@ -71,6 +143,7 @@ public class GoodsDAO extends DataBaseInfo{
 				dto.setProdSupplier(rs.getString("PROD_SUPPLIER"));
 				dto.setPurchaseNum(rs.getString("PURCHASE_NUM"));
 				dto.setPurchaseTotPrice(rs.getString("PURCHASE_TOT_PRICE"));
+				dto.setReviewContent(rs.getString("REVIEW_CONTENT"));
 				list.add(dto);
 			}		
 		} catch (SQLException e) {
@@ -92,7 +165,7 @@ public class GoodsDAO extends DataBaseInfo{
 			pstmt.setString(1, memId);
 			pstmt.setString(2, prodNum);
 			int i = pstmt.executeUpdate();
-			System.out.println(i+"개 행이 삭제되었습니다.");
+			System.out.println(i+"개 행이 삭제되었습니다.(결제 후 카트에서 삭제)");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -108,7 +181,7 @@ public class GoodsDAO extends DataBaseInfo{
 			pstmt.setString(1, dto.getMemId());
 			pstmt.setString(2, dto.getProdNum());
 			int i = pstmt.executeUpdate();
-			System.out.println(i+"개 행이 삭제되었습니다.");
+			System.out.println(i+"개 행이 삭제되었습니다.(카트상품삭제)");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -134,7 +207,7 @@ public class GoodsDAO extends DataBaseInfo{
 			pstmt.setString(7, dto.getReceiverName());
 			pstmt.setString(8, dto.getReceiverPhone());
 			int i = pstmt.executeUpdate();
-			System.out.println(i+"개 행이 저장되었습니다.");
+			System.out.println(i+"개 행이 저장되었습니다.(구매 저장)");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -155,7 +228,7 @@ public class GoodsDAO extends DataBaseInfo{
 			pstmt.setString(2, prodNum);
 			pstmt.setString(3, memId);
 			int i = pstmt.executeUpdate();
-			System.out.println(i+"개 행이 저장되었습니다.");
+			System.out.println(i+"개 행이 저장되었습니다.(구매리스트 저장)");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -216,7 +289,7 @@ public class GoodsDAO extends DataBaseInfo{
 			pstmt.setString(3, dto.getMemId());
 			pstmt.setString(4, dto.getProdNum());
 			int i =pstmt.executeUpdate();
-			System.out.println(i+"개 행이 수정되었습니다.");
+			System.out.println(i+"개 행이 수정되었습니다.(카트 수량 down)");
 		} catch (SQLException e) {		
 			e.printStackTrace();
 		} finally {
@@ -291,7 +364,7 @@ public class GoodsDAO extends DataBaseInfo{
 			pstmt.setString(7, dto.getCartQty());
 			pstmt.setInt(8, dto.getCartPrice());
 			int i=pstmt.executeUpdate();
-			System.out.println(i+"개 행이 저장되었습니다.");
+			System.out.println(i+"개 행이 저장되었습니다.(카트 담기 혹은 수정 merge)");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -307,7 +380,7 @@ public class GoodsDAO extends DataBaseInfo{
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, prodNum);
 			int i = pstmt.executeUpdate();
-			System.out.println(i+"개 행이 삭제되었습니다.");
+			System.out.println(i+"개 행이 삭제되었습니다.(상품삭제)");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -330,7 +403,7 @@ public class GoodsDAO extends DataBaseInfo{
 			pstmt.setString(7, dto.getRecommend());
 			pstmt.setString(8, dto.getProdNum());
 			int i = pstmt.executeUpdate();
-			System.out.println(i+"개 행이 수정되었습니다.");		
+			System.out.println(i+"개 행이 수정되었습니다.(상품 수정)");		
 		} catch (SQLException e) {			
 			e.printStackTrace();
 		} finally {
@@ -428,7 +501,7 @@ public class GoodsDAO extends DataBaseInfo{
 			pstmt.setString(10, dto.getEmployeeId());
 			pstmt.setString(11, dto.getCtgr()); 
 			int i = pstmt.executeUpdate();
-			System.out.println(i+"개 행이 저장되었습니다.");
+			System.out.println(i+"개 행이 저장되었습니다.(상품 등록)");
 		} catch (SQLException e) {		
 			e.printStackTrace();
 		} finally {

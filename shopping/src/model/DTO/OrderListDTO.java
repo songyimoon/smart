@@ -9,6 +9,7 @@ public class OrderListDTO {
 	String prodSupplier;
 	String purchaseTotPrice;
 	String prodImage;
+	String reviewContent;
 	
 	public String getPurchaseDate() {
 		return purchaseDate;
@@ -57,5 +58,12 @@ public class OrderListDTO {
 	}
 	public void setProdImage(String prodImage) {
 		this.prodImage = prodImage;
+	}
+	public String getReviewContent() {
+		return reviewContent;
+	}
+	public void setReviewContent(String reviewContent) {
+		this.reviewContent = reviewContent;
 	}	
+	
 }

@@ -22,9 +22,9 @@ public class GoodsDAO extends DataBaseInfo{
 	
 	public List<ProdReviewDTO> prodReviewSelect(String prodNum) {
 		List<ProdReviewDTO> list = new ArrayList<ProdReviewDTO>();
-		sql="select rpad(substr(m.MEM_ID,1,3),length(m.MEM_ID),'*') mem_id, REVIEW_CONTENT, REVIEW_DATE ,REVIEW_IMG "
-				 + " from member m, purchase p, review r " 
-				 + " where m.MEM_ID = p.MEM_ID and p.PURCHASE_NUM = r.PURCHASE_NUM "
+		sql="select rpad(substr(p.MEM_ID,1,3),length(p.MEM_ID),'*') mem_id, REVIEW_CONTENT, REVIEW_DATE ,REVIEW_IMG "
+				 + " from purchase p, review r " 
+				 + " where p.PURCHASE_NUM = r.PURCHASE_NUM "
 				 + " and r.PROD_NUM = ? ";
 		getConnect();
 		try {
@@ -118,8 +118,7 @@ public class GoodsDAO extends DataBaseInfo{
 		String num = " select to_char(sysdate,'yyyymmdd') || "
 					+ " nvl2(max(PAYMENT_APPR_NUM),substr(max(PAYMENT_APPR_NUM),-6),100000)+1 "
 					+ " from payment "
-					+ "	where substr(PAYMENT_APPR_NUM,1,8) = to_char(sysdate,'yyyymmdd')";
-		
+					+ "	where substr(PAYMENT_APPR_NUM,1,8) = to_char(sysdate,'yyyymmdd')";	
 		// 날마다 갱신하는 쿼리문
 		sql=" insert into payment ( PURCHASE_NUM, PAYMENT_METHOD, PAYMENT_APPR_PRICE, PAYMENT_APPR_NUM, PAYMENT_APPR_DATE, PAYMENT_NUMBER )"
 				+ " values (?,?,?, ( "+num+" ) ,sysdate,? )";		
@@ -141,19 +140,20 @@ public class GoodsDAO extends DataBaseInfo{
 	
 	
 	
-	
-	
 	public List<OrderListDTO> orderList(String memId){
 		List<OrderListDTO> list = new ArrayList<OrderListDTO>();
-		sql=" select PURCHASE_DATE, PAYMENT_APPR_NUM, pro.PROD_NUM, pur.PURCHASE_NUM, PROD_NAME, PROD_SUPPLIER, PURCHASE_TOT_PRICE, PROD_IMAGE, "
-			+ " REVIEW_CONTENT "  // 리뷰테이블 추가
-			+ " from products pro, purchase pur, purchase_list purlst, payment pay, review r "  // 리뷰테이블 추가
-			+ " where pur.PURCHASE_NUM = purlst.PURCHASE_NUM "
-			+ " and pro.PROD_NUM = purlst.PROD_NUM "
-			+ " and pur.PURCHASE_NUM = pay.PURCHASE_NUM(+) "
-			+ " and pur.PURCHASE_NUM = r.PURCHASE_NUM(+) " // 리뷰 조인 추가
-			+ " and mem_id = ? " 
-			+ " order by PURCHASE_NUM desc ";	
+		sql=" select p2.PURCHASE_DATE, p4.PAYMENT_APPR_NUM , p1.prod_num, "
+			+ " p2.PURCHASE_NUM, p1.prod_name, p1.PROD_SUPPLIER, "
+			+ " p2.PURCHASE_TOT_PRICE, p1.prod_image ,review_content "
+			+ " from products p1, purchase p2, purchase_list p3, payment p4, review r "
+			+ " where p3.prod_num = p1.prod_num "
+			+ " and p3.PURCHASE_NUM = p2.PURCHASE_NUM "
+			+ " and p3.PURCHASE_NUM = r.PURCHASE_NUM(+) "
+			+ " and p3.prod_num = r.prod_num(+) "
+			+ " and p2.PURCHASE_NUM = p4.PURCHASE_NUM(+) "
+			+ " and p2.mem_id = ? "
+			+ " order by PURCHASE_NUM desc ";
+		
 		getConnect();
 		try {
 			pstmt=conn.prepareStatement(sql);

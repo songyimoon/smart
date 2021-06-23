@@ -18,11 +18,6 @@ public class GoodsReviewWritePage {
 		dto.setProdNum(request.getParameter("prodNum"));
 		dto.setPurchaseNum(request.getParameter("purchaseNum"));
 		dto.setReviewContent(request.getParameter("reviewContent"));
-		
-		System.out.println(request.getParameter("prodNum"));
-		System.out.println(request.getParameter("purchaseNum"));
-		System.out.println(request.getParameter("reviewContent"));
-		
 		GoodsDAO dao = new GoodsDAO();
 		dao.reviewUpdate(dto);	
 	}

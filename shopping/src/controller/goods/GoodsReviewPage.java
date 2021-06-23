@@ -10,8 +10,7 @@ import model.DAO.GoodsDAO;
 import model.DTO.ReviewDTO;
 
 public class GoodsReviewPage {
-	public void review(HttpServletRequest request) {
-		
+	public void review(HttpServletRequest request) {	
 		String path="goods/review";	
 		String realPath=request.getServletContext().getRealPath(path);
 		System.out.println(realPath);
@@ -28,9 +27,6 @@ public class GoodsReviewPage {
 			e.printStackTrace();
 		} 
 		GoodsDAO dao = new GoodsDAO();
-		dao.reviewInsert(dto);
-		
-		
-		
+		dao.reviewInsert(dto);	
 	}
 }

@@ -17,7 +17,6 @@
 		<td><input type="file" name="reviewImg" /></td></tr>
 	<tr><td colspan="2">
 		<input type="submit" value="등록"/></td></tr>
-	
 </table>
 </form>
 </body>

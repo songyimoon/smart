@@ -112,23 +112,24 @@ public void doProcess(HttpServletRequest request, HttpServletResponse response) 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("goods/buyFinished.jsp");
 		dispatcher.forward(request, response);
 	
-	}else if(command.equals("/goodsReview.gd")) {
+	}else if(command.equals("/goodsReview.gd")) { // 리뷰 작성 페이지로 넘기기
 		request.setAttribute("prodNum", request.getParameter("prodNum"));
 		request.setAttribute("purchaseNum", request.getParameter("purchaseNum"));
 		RequestDispatcher dispatcher=request.getRequestDispatcher("goods/goodsReview.jsp");
 		dispatcher.forward(request, response);
-	}else if (command.equals("/reviewWrite.gd")) {
+		
+	}else if (command.equals("/reviewWrite.gd")) { // 작성한 리뷰를 등록하기
 		GoodsReviewPage action = new GoodsReviewPage();
 		action.review(request);
 		response.sendRedirect("purchaseCon.gd");
 		
-	}else if(command.equals("/goodsReviewUpdate.gd")) {
+	}else if(command.equals("/goodsReviewUpdate.gd")) { // 쓴 리뷰를 수정하는 것
 		GoodsReviewInfoPage action = new GoodsReviewInfoPage();
 		action.reviewInfo(request);	
 		RequestDispatcher dispatcher = request.getRequestDispatcher("goods/goodsReviewModify.jsp");
 		dispatcher.forward(request, response);
 		
-	}else if (command.equals("/reviewUpdate.gd")) {
+	}else if (command.equals("/reviewUpdate.gd")) { 
 		GoodsReviewWritePage action = new GoodsReviewWritePage();
 		action.reviewUpdate(request);
 		response.sendRedirect("purchaseCon.gd");

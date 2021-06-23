@@ -7,6 +7,7 @@ import java.util.List;
 import model.DTO.CartDTO;
 import model.DTO.OrderListDTO;
 import model.DTO.PaymentDTO;
+import model.DTO.ProdReviewDTO;
 import model.DTO.ProductCartDTO;
 import model.DTO.ProductDTO;
 import model.DTO.PurchaseDTO;
@@ -19,7 +20,32 @@ public class GoodsDAO extends DataBaseInfo{
 							+ "PROD_SUPPLIER, PROD_DEL_FEE, RECOMMEND, EMPLOYEE_ID, CTGR";
 	
 	
-	
+	public List<ProdReviewDTO> prodReviewSelect(String prodNum) {
+		List<ProdReviewDTO> list = new ArrayList<ProdReviewDTO>();
+		sql="select rpad(substr(m.MEM_ID,1,3),length(m.MEM_ID),'*') mem_id, REVIEW_CONTENT, REVIEW_DATE ,REVIEW_IMG "
+				 + " from member m, purchase p, review r " 
+				 + " where m.MEM_ID = p.MEM_ID and p.PURCHASE_NUM = r.PURCHASE_NUM "
+				 + " and r.PROD_NUM = ? ";
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, prodNum);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				ProdReviewDTO dto = new ProdReviewDTO();
+				dto.setMemId(rs.getString(1));
+				dto.setReviewContent(rs.getString(2));
+				dto.setReviewDate(rs.getDate(3));
+				dto.setReviewImg(rs.getString(4));
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		} 
+		return list;
+	}
 	
 	
 	

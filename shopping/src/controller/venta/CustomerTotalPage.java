@@ -15,8 +15,7 @@ public class CustomerTotalPage {
 		for(CustomerTotalDTO dto : list) {
 			googleList += ",['" +dto.getMemId() + "/" +dto.getMemName()+"',"+dto.getCount()+","+dto.getSumPrice()+","+dto.getAvg()+"]";
 		}
-		googleList += "]";
-		
+		googleList += "]";	
 		request.setAttribute("googleList", googleList);
 		request.setAttribute("list", list);
 	}

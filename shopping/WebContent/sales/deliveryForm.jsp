@@ -21,11 +21,9 @@
 		<tr><td>도착예정일</td><td>
 		<input type="text" name="arrivalExpDate" value="${dto.arrivalExpDate }"></td>
 	</tr>
-	
 	<tr>
-		<th colspan="2"><input type="submit" value="배송등록" /></th>
+		<th colspan="2"><input type="submit" value="배송등록 및 수정" /></th>
 	</tr>
-	
 </table>
 </form>
 </body>

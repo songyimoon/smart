@@ -16,12 +16,6 @@ public class DeliveryOkPage {
 		dto.setDeliveryNum(request.getParameter("deliveryNum"));
 		dto.setPurchaseNum(request.getParameter("purchaseNum"));
 		SalesDAO dao= new SalesDAO();
-		dao.deliverySelect(dto);
-		
-//		PrintWriter out = response.getWriter();
-//		out.println("<script>");
-//		out.println();
-//		out.println();
-		
+		dao.deliveryCreateModify(dto);
 	}
 }

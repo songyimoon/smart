@@ -12,7 +12,7 @@ public class SalesDAO extends DataBaseInfo{
 	
 	
 	
-	public void deliverySelect(DeliveryDTO dto) {
+	public void deliveryCreateModify(DeliveryDTO dto) {
 		// 물음표 순서는 나오는 순서대로임
 		String delFee = " select sum(PROD_DEL_FEE) "
 						+ " from purchase_list pl, products pr " 

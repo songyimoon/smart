@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
    <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
@@ -28,8 +27,6 @@
    </script>
 </head>
 <body>
-
-
 <div id="chart_div" style="width:900px; height: 500px;"></div>
 고객별 현황<br />
 <table border="1">
@@ -37,10 +34,6 @@
 <c:forEach items="${list }" var="dto">
 <tr><td>${dto.memName }/${dto.memId }</td><td>총 ${dto.sumPrice }</td><td>${dto.count }</td><td>${dto.avg }</td></tr>
 </c:forEach>
-
 </table>
-
-
-
 </body>
 </html>

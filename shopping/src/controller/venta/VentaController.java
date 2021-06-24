@@ -38,6 +38,7 @@ public class VentaController extends HttpServlet
 			RequestDispatcher dispatcher=request.getRequestDispatcher("sales/deliveryForm.jsp");
 			dispatcher.forward(request, response);
 		}else if (command.equals("/deliveryOk.vnt")) {
+			request.setCharacterEncoding("utf-8");
 			DeliveryOkPage action = new DeliveryOkPage();
 			action.execute(request);
 			response.sendRedirect("venta.vnt");

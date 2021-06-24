@@ -18,36 +18,26 @@
 </form>
 <table border=1>
 	<tr><td>고객아이디</td><td>고객명</td><td>상품명</td><td>수량</td><td>판매일</td><td>배송상태</td></tr>
-	
 	<c:forEach items="${list }" var="dto">
-	
-	<tr><td>
-		<c:if test="${dto.memId == null}">비회원</c:if>
-		<c:if test="${dto.memId != null}">
-		<a href="userSales.vnt?memId=${dto.memId }" target="_blank">${dto.memId }</a>
-		<!-- a태그에서 blank 사용: 새 창으로 뜸 -->
-		</c:if>
-	</td>
-	
-	<td>
-		<c:if test="${dto.memName == null}">비회원</c:if>
-		<c:if test="${dto.memName != null}">${dto.memName }</c:if>
-	
-	</td>
-	<td>${dto.prodName }</td><td>${dto.purchaseQty }</td><td>${dto.purchaseDate}</td>
-	
-	<td>
-		<a href="createDelivery.vnt?purchaseNum=${dto.purchaseNum }">
-		<c:if test="${dto.deliveryNum == null }">배송등록</c:if>
-		<c:if test="${dto.deliveryNum != null }">배송수정</c:if>
-		</a>
-	</td>
-	
-	
-	
-	</tr>
+		<tr><td>
+			<c:if test="${dto.memId == null}">비회원</c:if>
+			<c:if test="${dto.memId != null}">
+			<a href="userSales.vnt?memId=${dto.memId }" target="_blank">${dto.memId }</a>
+			<!-- a태그에서 blank 사용: 새 창으로 뜸 -->
+			</c:if>
+		</td>
+		<td>
+			<c:if test="${dto.memName == null}">비회원</c:if>
+			<c:if test="${dto.memName != null}">${dto.memName }</c:if>	
+		</td>
+		<td>${dto.prodName }</td><td>${dto.purchaseQty }</td><td>${dto.purchaseDate}</td>
+		<td>
+			<a href="createDelivery.vnt?purchaseNum=${dto.purchaseNum }">
+			<c:if test="${dto.deliveryNum == null }">배송등록</c:if>
+			<c:if test="${dto.deliveryNum != null }">배송수정</c:if>
+			</a>
+		</td></tr>
 	</c:forEach>
 </table>
 </body>
-
 </html>

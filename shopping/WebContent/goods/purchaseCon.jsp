@@ -12,7 +12,7 @@
 <tr>
 	<td>주문일(결제번호)</td>
 	<td>상품명/주문번호</td>
-	<td>판매자</td>
+	<td>판매자</td> 
 	<td>주문상태</td></tr>	
 <c:forEach items = "${list }" var="dto">
 <tr><td>

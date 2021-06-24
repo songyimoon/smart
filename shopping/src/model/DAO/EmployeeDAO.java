@@ -205,7 +205,7 @@ public class EmployeeDAO {
 			result = rs.getInt(1); 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
+		} finally {  
 			close();
 		}
 		return result;

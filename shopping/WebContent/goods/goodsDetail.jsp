@@ -86,7 +86,7 @@ ${dto.ctgr }의 ${dto.prodName } 상품 설명입니다.</h1>
 	/ ${dto.reviewDate } <br />
 	${fn:replace(dto.reviewContent,br,"<br />")}<br />
 	<c:if test="${dto.reviewImg != null }">
-		<img src="goods/review/${dto.reviewImg }"/>
+		<img src="goods/review/${dto.reviewImg }" width="70"/>
 	</c:if>
 	<hr/>
 	</p>

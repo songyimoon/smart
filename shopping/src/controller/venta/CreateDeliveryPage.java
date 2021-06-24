@@ -11,5 +11,5 @@ public class CreateDeliveryPage {
 		DeliveryDTO dto= dao.deliverySelect(request.getParameter("purchaseNum"));		
 		request.setAttribute("purchaseNum", request.getParameter("purchaseNum"));
 		request.setAttribute("dto", dto);
-	}
+	} 
 }

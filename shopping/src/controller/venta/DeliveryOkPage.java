@@ -15,7 +15,6 @@ public class DeliveryOkPage {
 		dto.setDeliveryExpDate(request.getParameter("deliveryExpDate"));
 		dto.setDeliveryNum(request.getParameter("deliveryNum"));
 		dto.setPurchaseNum(request.getParameter("purchaseNum"));
-		System.out.println(request.getParameter("purchaseNum"));
 		SalesDAO dao= new SalesDAO();
 		dao.deliverySelect(dto);
 		

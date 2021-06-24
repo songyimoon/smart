@@ -42,8 +42,6 @@ public class VentaController extends HttpServlet
 			action.execute(request);
 			response.sendRedirect("venta.vnt");
 		}
-		
-		
 	}
 
 	@Override

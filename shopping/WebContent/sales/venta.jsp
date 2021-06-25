@@ -9,8 +9,11 @@
 <title>판매현황</title>
 </head>
 <body>
-판매 리스트 | <a href="customerTotal.vnt" target="_blank">고객별 판매 현황</a> | 상품별 판매 현황 | 년별 판매 현황 | 월별 판매 현황
-
+판매 리스트 | <a href="customerTotal.vnt" target="_blank">고객별 판매 현황</a> | 
+			<a href="prodTotal.vnt" target="_blank">상품별 판매 현황</a> | 
+			<a href="yearTotal.vnt" target="_blank">년별 판매 현황</a> | 
+			<a href="#" target="_blank">월별 판매 현황</a>
+ 
 
 <form action = "venta.vnt" method="post" name="frm">
 아이디: <input type="text" name="memId" /><br />
@@ -19,7 +22,7 @@
 <table border=1>
 	<tr><td>고객아이디</td><td>고객명</td><td>상품명</td><td>수량</td><td>판매일</td><td>배송상태</td></tr>
 	<c:forEach items="${list }" var="dto">
-		<tr><td>
+		<tr><td> 
 			<c:if test="${dto.memId == null}">비회원</c:if>
 			<c:if test="${dto.memId != null}">
 			<a href="userSales.vnt?memId=${dto.memId }" target="_blank">${dto.memId }</a>

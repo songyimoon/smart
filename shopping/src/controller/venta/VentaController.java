@@ -42,7 +42,22 @@ public class VentaController extends HttpServlet
 			DeliveryOkPage action = new DeliveryOkPage();
 			action.execute(request);
 			response.sendRedirect("venta.vnt");
+		}else if(command.equals("/prodTotal.vnt")) {
+			ProdTotalPage action = new ProdTotalPage();
+			action.prodTotal(request);
+			RequestDispatcher dispatcher=request.getRequestDispatcher("sales/prodTotal.jsp");
+			dispatcher.forward(request, response);			
+		}else if(command.equals("/yearTotal.vnt")) {
+			YearTotalPage action = new YearTotalPage();
+			action.yearTotal(request);
+			RequestDispatcher dispatcher=request.getRequestDispatcher("sales/yearTotal.jsp");
+			dispatcher.forward(request, response);	
+		
 		}
+		
+		
+		
+		
 	}
 
 	@Override

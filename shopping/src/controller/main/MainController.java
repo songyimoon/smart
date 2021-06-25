@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +21,7 @@ public class MainController extends HttpServlet
 		String requestURI=request.getRequestURI();
 		String contextPath=request.getContextPath();
 		String command=requestURI.substring(contextPath.length());
-
+  
 		
 		if(command.equals("/main.sm")) {
 			GoodsListPage action = new GoodsListPage();
@@ -29,9 +30,14 @@ public class MainController extends HttpServlet
 			dispatcher.forward(request, response);
 		}else if(command.equals("/login.sm")) {
 			LoginPage action = new LoginPage();
-			action.login(request);
+			action.login(request, response);
 			response.sendRedirect("main.sm");
 		}else if(command.equals("/logout.sm")) {
+			Cookie cookie = new Cookie("autoLogin","");  
+			cookie.setPath("/");
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
+			
 			HttpSession session = request.getSession();
 			session.invalidate(); // 전부 다 날려먹음
 			response.sendRedirect("main.sm");

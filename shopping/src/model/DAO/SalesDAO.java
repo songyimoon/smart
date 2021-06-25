@@ -7,6 +7,8 @@ import java.util.List;
 import model.DTO.ClientSalesDTO;
 import model.DTO.CustomerTotalDTO;
 import model.DTO.DeliveryDTO;
+import model.DTO.ProdTotalDTO;
+import model.DTO.YearTotalDTO;
 
 public class SalesDAO extends DataBaseInfo{
 	
@@ -28,22 +30,22 @@ public class SalesDAO extends DataBaseInfo{
 				+ " values (?,?,?,?, ("+delFee+"),? ) ";
 		getConnect();
 		try {
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, dto.getPurchaseNum());
-			pstmt.setString(2, dto.getDeliveryCom());
-			pstmt.setString(3, dto.getDeliveryNum());
-			pstmt.setString(4, dto.getDeliveryExpDate());
-			pstmt.setString(5, dto.getArrivalExpDate());
-			pstmt.setString(6, dto.getPurchaseNum());
-			pstmt.setString(7, dto.getDeliveryCom());
-			pstmt.setString(8, dto.getDeliveryNum());
-			pstmt.setString(9, dto.getDeliveryExpDate());
-			pstmt.setString(10, dto.getArrivalExpDate());
-			pstmt.setString(11, dto.getPurchaseNum());
-			pstmt.setString(12, dto.getPurchaseNum());
-		
-			int i = pstmt.executeUpdate();
-			System.out.println(i+"개 행이 입력되었습니다. (배송)");
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1, dto.getPurchaseNum());
+				pstmt.setString(2, dto.getDeliveryCom());
+				pstmt.setString(3, dto.getDeliveryNum());
+				pstmt.setString(4, dto.getDeliveryExpDate());
+				pstmt.setString(5, dto.getArrivalExpDate());
+				pstmt.setString(6, dto.getPurchaseNum());
+				pstmt.setString(7, dto.getDeliveryCom());
+				pstmt.setString(8, dto.getDeliveryNum());
+				pstmt.setString(9, dto.getDeliveryExpDate());
+				pstmt.setString(10, dto.getArrivalExpDate());
+				pstmt.setString(11, dto.getPurchaseNum());
+				pstmt.setString(12, dto.getPurchaseNum());
+			
+				int i = pstmt.executeUpdate();
+				System.out.println(i+"개 행이 입력되었습니다. (배송)");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -102,6 +104,59 @@ public class SalesDAO extends DataBaseInfo{
 				dto.setCount(rs.getString(3));
 				dto.setSumPrice(rs.getString(4));
 				dto.setAvg(rs.getString(5));
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return list;
+	}
+	
+	public List<ProdTotalDTO> prodTotal(){
+		List<ProdTotalDTO> list = new ArrayList<ProdTotalDTO>();
+		sql=" select pro.prod_num, pro.prod_name, count(*), sum(PROD_PRICE), avg(PROD_PRICE) "
+				 + " from products pro, purchase_list pl "
+				 + " where pl.prod_num = pro.prod_num " 
+				 + " group by pro.prod_num, pro.prod_name ";
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				ProdTotalDTO dto = new ProdTotalDTO();
+				dto.setProdNum(rs.getString(1));
+				dto.setProdName(rs.getString(2));
+				dto.setCount(rs.getString(3));
+				dto.setSumPrice(rs.getString(4));
+				dto.setAvg(rs.getString(5));
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return list;
+	}
+	
+	public List<YearTotalDTO> yearTotal(){
+		List<YearTotalDTO> list = new ArrayList<YearTotalDTO>();
+		sql=" select to_char(purchase_date,'yyyy') year, count(*), sum(PURCHASE_TOT_PRICE), avg(PURCHASE_TOT_PRICE) " 
+				+ "from purchase_list pl, purchase pur " 
+				+ "where pl.purchase_num  = pur.purchase_num "
+				+ "group by to_char(purchase_date,'yyyy') ";
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				YearTotalDTO dto = new YearTotalDTO();
+				dto.setYear(rs.getString(1));
+				dto.setCount(rs.getString(2));
+				dto.setSumPrice(rs.getString(3));
+				dto.setAvg(rs.getString(4));
 				list.add(dto);
 			}
 		} catch (SQLException e) {

@@ -17,9 +17,9 @@
 		<tr><td>송장번호</td><td>
 		<input type="text" name="deliveryNum" value="${dto.deliveryNum }"></td></tr>
 		<tr><td>배송일</td><td>
-		<input type="text" name="deliveryExpDate" value="${dto.deliveryExpDate }"></td></tr>
+		<input type="date" name="deliveryExpDate" value="${dto.deliveryExpDate }"></td></tr>
 		<tr><td>도착예정일</td><td>
-		<input type="text" name="arrivalExpDate" value="${dto.arrivalExpDate }"></td>
+		<input type="date" name="arrivalExpDate" value="${dto.arrivalExpDate }"></td>
 	</tr>
 	<tr>
 		<th colspan="2"><input type="submit" value="배송등록 및 수정" /></th>

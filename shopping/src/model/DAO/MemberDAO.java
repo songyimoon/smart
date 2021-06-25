@@ -33,6 +33,31 @@ public class MemberDAO {
 		}
 	}
 	
+	 
+	// dto를 매개변수로 해서 수정해서 다시 들고옴. 리턴할 필요가 없어요
+	public void idFind(MemberDTO dto) {
+		sql="select mem_id, mem_name from member "
+			+ " where MEM_ADDRESS = ? and MEM_PHONE = ?  and MEM_EMAIL = ? ";
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getMemAddress());
+			pstmt.setString(2, dto.getMemPhone());
+			pstmt.setString(3, dto.getMemEmail());
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				dto.setMemId(rs.getString(1));
+				dto.setMemName(rs.getString(2));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
+	
+	
 	public void pwChange(String memId, String memPw) {
 		sql="update member set mem_pw = ? where mem_id = ?";
 		getConnect();

@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>  
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>   
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>연도별 판매 현황</title>
+<title>월별 판매 현황</title>
    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
    <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
@@ -15,9 +15,9 @@
       function drawVisualization() { 
     		var data = google.visualization.arrayToDataTable(${googleList});
 			var options = {
-					title : '연도별 판매 현황 ',
+					title : '월별 판매 현황 ',
 					vAxis: {title: '금액 및 수량'},
-					hAxis: {title: '년도'}, 
+					hAxis: {title: '월'}, 
 					seriesType: 'bars',
 					series: {5: {type: 'line'}}
 				};        
@@ -29,12 +29,12 @@
 <body>
 <div id="chart_div" style="width:900px; height: 500px;"></div>
 <hr/>
-<h4>연도별 판매 현황</h4><br />
+<h4>월별 판매 현황</h4><br />
 <table border="1" width="900">
-<tr><th>연도</th><th>총 구매금액</th><th>횟수</th><th>평균 금액</th></tr>
+<tr><th>월</th><th>총 구매금액</th><th>횟수</th><th>평균 금액</th></tr>
 <c:forEach items="${list }" var="dto">
 <tr>
-<td align="center">${dto.year }년</td>
+<td align="center">${dto.month }월</td>
 <td align="center"> <fmt:formatNumber value="${dto.sumPrice }" type="currency"/></td>
 <td align="center">${dto.count }</td>
 <td align="center"><fmt:formatNumber value="${dto.avg }" type="currency"/></td>

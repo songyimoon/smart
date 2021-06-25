@@ -51,8 +51,12 @@ public class VentaController extends HttpServlet
 			YearTotalPage action = new YearTotalPage();
 			action.yearTotal(request);
 			RequestDispatcher dispatcher=request.getRequestDispatcher("sales/yearTotal.jsp");
-			dispatcher.forward(request, response);	
-		
+			dispatcher.forward(request, response);			
+		}else if(command.equals("/monthTotal.vnt")) {
+			MonthTotalPage action = new MonthTotalPage();
+			action.monthTotal(request);
+			RequestDispatcher dispatcher=request.getRequestDispatcher("sales/monthTotal.jsp");
+			dispatcher.forward(request, response);			
 		}
 		
 		

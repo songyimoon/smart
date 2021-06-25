@@ -24,8 +24,7 @@ public class IdSearchPage {
 		if(dto.getMemId()==null) {
 			request.setAttribute("idFail","정보가 일치하지 않습니다." );			
 		}else {
-			request.setAttribute("dto", dto);
-			
+			request.setAttribute("dto", dto);		
 		}
 	}
 }

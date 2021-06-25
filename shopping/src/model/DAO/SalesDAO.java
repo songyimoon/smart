@@ -1,5 +1,6 @@
 package model.DAO;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import model.DTO.ClientSalesDTO;
 import model.DTO.CustomerTotalDTO;
 import model.DTO.DeliveryDTO;
+import model.DTO.MonthTotalDTO;
 import model.DTO.ProdTotalDTO;
 import model.DTO.YearTotalDTO;
 
@@ -34,13 +36,18 @@ public class SalesDAO extends DataBaseInfo{
 				pstmt.setString(1, dto.getPurchaseNum());
 				pstmt.setString(2, dto.getDeliveryCom());
 				pstmt.setString(3, dto.getDeliveryNum());
-				pstmt.setString(4, dto.getDeliveryExpDate());
-				pstmt.setString(5, dto.getArrivalExpDate());
+				
+				long deliveryExpDate = dto.getDeliveryExpDate().getTime();
+				pstmt.setDate(4, new Date(deliveryExpDate));
+				
+				long arrivalExpDate = dto.getArrivalExpDate().getTime();
+				pstmt.setDate(5, new Date(arrivalExpDate));
+		
 				pstmt.setString(6, dto.getPurchaseNum());
 				pstmt.setString(7, dto.getDeliveryCom());
 				pstmt.setString(8, dto.getDeliveryNum());
-				pstmt.setString(9, dto.getDeliveryExpDate());
-				pstmt.setString(10, dto.getArrivalExpDate());
+				pstmt.setDate(9, new Date(deliveryExpDate));
+				pstmt.setDate(10, new Date(arrivalExpDate));
 				pstmt.setString(11, dto.getPurchaseNum());
 				pstmt.setString(12, dto.getPurchaseNum());
 			
@@ -53,9 +60,6 @@ public class SalesDAO extends DataBaseInfo{
 		}
 	} 
 		
-		
-	
-	
 	
 	
 	public DeliveryDTO deliverySelect(String purchaseNum) {
@@ -70,10 +74,10 @@ public class SalesDAO extends DataBaseInfo{
 			rs=pstmt.executeQuery();
 			if(rs.next()) {
 				dto = new DeliveryDTO();
-				dto.setArrivalExpDate(rs.getString(5));
+				dto.setArrivalExpDate(rs.getDate(5));
 				dto.setDeliveryCom(rs.getString(2));
 				dto.setDeliveryDelFee(rs.getString(6));
-				dto.setDeliveryExpDate(rs.getString(4));
+				dto.setDeliveryExpDate(rs.getDate(4));
 				dto.setDeliveryNum(rs.getString(3));
 				dto.setPurchaseNum(rs.getString(1));
 			}
@@ -167,6 +171,31 @@ public class SalesDAO extends DataBaseInfo{
 		return list;
 	}
 	
+	public List<MonthTotalDTO> MonthTotal(){
+		List<MonthTotalDTO> list = new ArrayList<MonthTotalDTO>();
+		sql = " select to_char(purchase_date,'MM') month  , count(*), sum(PURCHASE_TOT_PRICE), avg(PURCHASE_TOT_PRICE) "
+				 + 	" from purchase_list pl, purchase pur "
+				 + 	" where pl.purchase_num  = pur.purchase_num "
+				 + 	" group by to_char(purchase_date,'MM') ";
+		getConnect();
+		try {
+			pstmt=conn.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				MonthTotalDTO dto = new MonthTotalDTO();
+				dto.setMonth(rs.getString(1));
+				dto.setCount(rs.getString(2));
+				dto.setSumPrice(rs.getString(3));
+				dto.setAvg(rs.getString(4));
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return list;
+	}
 
 	public List<ClientSalesDTO> salesList(String memId){
 		List<ClientSalesDTO> list = new ArrayList<ClientSalesDTO>();

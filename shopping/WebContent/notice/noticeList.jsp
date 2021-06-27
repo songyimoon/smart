@@ -27,8 +27,7 @@ table{
 <body>
 <h1 align="center">공지사항</h1><br/>
 <p align="center" bgcolor=#e0e0eb><a href="noticeRegist.nt"> > 공지등록 < </a></p>
-<p align="center">글 번호를 클릭해서 수정해주시기 바랍니다.</p>
-<p align="center">글 내용은 제목을 클릭해서 확인해주세요.</p>
+
 <table align="center">
 <tr bgcolor=#e0e0eb><th>번호</th>
 	<th>공지종류</th>

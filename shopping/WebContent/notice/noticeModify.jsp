@@ -7,7 +7,7 @@
 <title>공지사항 수정</title>
 </head>
 <body>
-<form action="noticeModify.nt" method="post" name="frm">
+<form action="noticeModify.nt" method="post" name="frm" >
 <input type="hidden" name="noticeNo" value="${dto.noticeNo }">
 
 
@@ -22,10 +22,6 @@
 	<td>${dto.noticeDate } </td></tr>
 	<tr><th>공지종류</th>
 	<td>
-	
-	<!-- <input type="text" name="noticeKind" value="${dto.noticeKind }"/></td></tr>
-	 -->
-	
 		<select name="noticeKind">
 		<option value="not">공지</option>
 		<option value="deliv">배송</option>	

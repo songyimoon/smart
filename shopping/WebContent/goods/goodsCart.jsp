@@ -7,6 +7,23 @@
 <head>
 <meta charset="UTF-8">
 <title>장바구니</title>
+
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
+*{text-decoration:none;
+  color: black;
+}
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+table{
+  font-size: 15px/1;
+  width: 850px;
+  border: 1px solid;
+  border-spacing: 8px;
+}
+</style>
+
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
 	function checkQty(prodNum, prodPrice, cartQty){
@@ -36,7 +53,7 @@
 <body>
 <h1 align="center">장바구니 페이지</h1>
 
-<table border = 1 width="800" align="center">
+<table align="center">
 <form action="goodsBuy.gd" method="post">
 <c:set var="price" value="0"/>
 <c:set var="cnt" value="0"/>
@@ -44,14 +61,14 @@
 <c:forEach items="${lists }" var="dto">
 
 
-	<tr><th colspan="4">
+	<tr><th colspan="4" bgcolor=#e0e0eb>
 		<input type="checkbox" value="${dto.productDTO.prodNum}" name="prodCk" onchange="prodChk();" checked/>
 			<!-- 체크박스가 prodNum을 가지고 있어서, prodChk 실행 시 상품 번호를 더해버리는 현상이 나타난다. 그래서 아래 hidden만듦 -->
 			<input type="hidden" name="cartPrice" value="${dto.cartDTO.cartPrice + dto.productDTO.prodDelFee}" />
 			${dto.productDTO.prodSupplier }</th>
-		<th>적용금액</th>
-		<th>배송비</th>
-		<th>총 적용금액</th>
+		<th bgcolor=#e0e0eb>적용금액</th>
+		<th bgcolor=#e0e0eb>배송비</th>
+		<th bgcolor=#e0e0eb>총 적용금액</th>
 		<td rowspan="2"><input type="button" value="삭제" onclick="javascript:location.href='cartProdDel.gd?prodNum=${dto.productDTO.prodNum}';"/></td>
 	</tr>
 		
@@ -63,15 +80,16 @@
 			${dto.cartDTO.cartQty }&nbsp;&nbsp;  
 			<a href="goodsCartAdd.gd?prodNum=${dto.productDTO.prodNum }&qty=1&&prodPrice=${dto.productDTO.prodPrice}">+</a>
 		</td>
-		<td align="right"><fmt:formatNumber value="${dto.productDTO.prodPrice }" type="currency"/>원
+		<td align="right"><fmt:formatNumber value="${dto.productDTO.prodPrice }" type="number"/>원
 		</td>
-		<td align="right"><fmt:formatNumber value="${dto.cartDTO.cartPrice }" type="currency"/>원
+		<td align="right"><fmt:formatNumber value="${dto.cartDTO.cartPrice }" type="number"/>원
 		</td>
-		<td align="right"><fmt:formatNumber value="${dto.productDTO.prodDelFee }" type="currency"/>원
+		<td align="right"><fmt:formatNumber value="${dto.productDTO.prodDelFee }" type="number"/>원
 		</td>	
 		<td align="right"><fmt:formatNumber value="${dto.cartDTO.cartPrice + dto.productDTO.prodDelFee}" type="currency"/>원</td>	
 		</tr>
 
+	
 
 <c:set var="cnt" value="${cnt = cnt + 1}"/>
 <!-- (누적sum개념) price에다가 카트DTO의 카트에 있는 금액인 cartPrice랑 배송비를 더하도록 하겠다. (기존 price값이 있으면 누적으로 더하기) -->
@@ -83,7 +101,7 @@
 	<td colspan="2" align="left"> 상품 수: <br />
 								   총 합계: </td>
 	<td colspan="2" align="right"><span id="prodCnt">${cnt }</span>개<br />
-								  <span id="totalPrice"> <fmt:formatNumber value= "${price }" type="currency"/></span>원</td></tr>
+								  <span id="totalPrice"> <fmt:formatNumber value= "${price }" type="number"/></span>원</td></tr>
 									 
 
 <tr><td colspan="8" align="center">

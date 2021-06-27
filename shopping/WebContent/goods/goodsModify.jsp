@@ -5,14 +5,29 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>상품 수정</title>
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+table{
+  font-size: 15px/1;
+  width: 1000px;
+  border: 1px solid;
+  border-spacing: 8px;
+}
+
+  
+</style>
 </head>
 <body>
 <form action="goodsModify.gd" method="post" name="frm">
 
 
 <input type="hidden" name="prodNum" value="${dto.prodNum }">
-<table border=1 align=center>
+<table align=center>
 
 	<tr><th>상품번호</th>
 		<td>${dto.ctgr }-${dto.prodNum }</td></tr>

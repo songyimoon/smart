@@ -7,13 +7,28 @@
 <head>
 <meta charset="UTF-8">
 <title>주문결제</title>
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
+*{text-decoration:none;
+  color: black;
+}
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+table{
+  font-size: 15px/1;
+  width: 850px;
+  border: 1px solid;
+  border-spacing: 8px;
+}
+</style>
 </head>
 <body>
 <h1>주문서</h1>
 <hr />
-1. 주문 상품 <br />
+<h3>1. 주문 상품 </h3><br />
 <form action="goodsOrder.gd" method="post">
-<table width="800" border="1">
+<table>
 	<tr><th colspan="2">상품정보</th>
 		<th>적용금액</th>
 		<th>판매자</th>
@@ -30,7 +45,7 @@
 		<td>상품명<br/>
 		
 				${dto.productDTO.prodName }&nbsp;&nbsp;&nbsp;
-				${dto.cartDTO.cartQty }개/
+				${dto.cartDTO.cartQty }개 /
 				${dto.productDTO.prodPrice }원</td>
 		
 		<td>${dto.cartDTO.cartPrice}</td>
@@ -45,7 +60,7 @@
 
 
 
-<table width="600" >
+<table>
 	<tr><td>상품금액<br />${cartPrice }</td>
 		<td>+</td>
 		<td>배송비<br />${prodDelFee }</td>
@@ -58,7 +73,8 @@
 </table>
 
 <hr />
-2. 배송 정보
+<h3>2. 배송 정보 </h3>
+
 <table>
 	<tr><td>이름</td><td><input type="text" name="receiverName"></td></tr>
 	<tr><td>주소</td><td><input type="text" name="purchaseAddr"></td></tr>
@@ -73,7 +89,7 @@
 		</td></tr>
 </table>
 <table>
-<tr><td><input type="submit" value="결제하기" name=""/>
+<tr><td align = "center"><input type="submit" value="결제하기" name=""/>
 		<input type="button" value="홈으로" onclick="javascript:location.href='main.sm'"/></td></tr>
 </table>
 </form>

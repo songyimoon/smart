@@ -39,15 +39,6 @@ public class NoticeJoinPage {
 		dto.setEmployeeId(emp_no);
 		dto.setNoticeCon(multi.getParameter("noticeCon"));
 		
-		String noticeDate1 = multi.getParameter("noticeDate");
-		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-		Date noticeDate = null;	
-		try {
-			noticeDate=sf.parse(noticeDate1);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}	
-		dto.setNoticeDate(noticeDate);
 		dto.setNoticeFile(images);
 		dto.setNoticeHits(multi.getParameter("noticeHits"));
 		dto.setNoticeKind(multi.getParameter("noticeKind"));

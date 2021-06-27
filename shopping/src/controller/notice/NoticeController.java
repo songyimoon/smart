@@ -43,6 +43,11 @@ public class NoticeController extends HttpServlet
 		action.noticeModify(request);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("notice/noticeModify.jsp");
 		dispatcher.forward(request, response);
+	}else if(command.equals("/noticeView.nt")) {
+		NoticeModifyPage action = new NoticeModifyPage();
+		action.noticeModify(request);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("notice/noticeView.jsp");
+		dispatcher.forward(request, response);		
 	}else if(command.equals("/noticeModify.nt")) {
 		NoticeUpdatePage action = new NoticeUpdatePage();
 		action.noticeUpdate(request);

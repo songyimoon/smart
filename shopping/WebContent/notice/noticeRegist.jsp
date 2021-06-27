@@ -15,19 +15,12 @@
 	<td><input type="text" name="noticeSub"/></td></tr>
 	<tr><th>내용</th>
 	<td><textarea rows="10" cols="50" name="noticeCon"></textarea></td></tr>
-	<tr><th>날짜</th>
-	<td><input type="date" name="noticeDate" />  </td></tr>
-	
-	
 	<tr><th>공지종류</th>
 	<td>
 	<select name="noticeKind">
 		<option value="not">공지</option>
 		<option value="deliv">배송</option>	
 	</select></td></tr>
-	
-	
-	
 	<tr><th>첨부파일</th>
 	<td><input type="file" name="noticeFile"/></td></tr>
 	<tr><th>조회수</th>

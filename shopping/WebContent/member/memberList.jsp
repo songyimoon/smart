@@ -7,17 +7,34 @@
 <head>
 <meta charset="UTF-8">
 <title>회원리스트</title>
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
+
+*{
+  color: black;
+}
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+table{
+  font-size: 15px/1;
+  width: 1200px;
+  border: 1px solid;
+  border-spacing: 8px;
+
+</style>
 </head>
 <body>
-회원리스트 페이지입니다. <br/>
+<h1 align="center">회원리스트</h1><br/>
 
-<table border = 1>
-<tr>
-	<td>아이디</td>
-	<td>이름</td>
-	<td>연락처</td>
-	<td>이메일</td>
-	<td>주소</td></tr>
+
+<table align="center">
+<tr bgcolor=#e0e0eb>
+	<th>아이디</th>
+	<th>이름</th>
+	<th>연락처</th>
+	<th>이메일</th>
+	<th>주소</th></tr>
 	<c:forEach items="${lists }" var="dto">
 <tr><td>
 	<a href="memInfo.mem?memId=${dto.memId }">${dto.memId }</a></td>

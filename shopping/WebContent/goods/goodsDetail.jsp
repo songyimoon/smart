@@ -14,6 +14,21 @@
 <meta charset="UTF-8">
 <title>상품정보</title>
 
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+table{
+  font-size: 15px/1;
+  width: 1000px;
+  border: 1px solid;
+  border-spacing: 8px;
+}
+
+</style>
+
 <script>
 	function onQty(){
 		var qty = document.frm.purchaseQty.value;
@@ -27,13 +42,13 @@
 </head>
 <body>
 <p><p>
-<form action="#" name="frm" method="post">
+<form action="goodsBuy.gd" name="frm" method="post">
 <input type="hidden" name="prodNum" value="${dto.prodNum }"/>
 <h1 align="center">
-${dto.ctgr }의 ${dto.prodName } 상품 설명입니다.</h1> 
+${dto.ctgr } 카테고리의 <  ${dto.prodName } > 상품 설명입니다.</h1> 
 
 
-<table width="800" align="center">
+<table align="center">
 
 
 	<tr><td rowspan="6">
@@ -42,26 +57,27 @@ ${dto.ctgr }의 ${dto.prodName } 상품 설명입니다.</h1>
 		<td>상품명: ${dto.prodName }</td></tr>
 	
 		
-	<tr><td align="left">가격: <fmt:formatNumber value="${dto.prodPrice }" type="currency"/></td></tr>
+	<tr><td align="left">가격: <fmt:formatNumber value="${dto.prodPrice }" type="number"/>원</td></tr>
 	
 	
 	<tr><td align="left">배송비: 
 	
 			<c:if test="${dto.prodDelFee == 0 }">무료배송</c:if>
-			<c:if test="${dto.prodDelFee != 0 }"><fmt:formatNumber value="${dto.prodDelFee}" type="currency"/></c:if>
+			<c:if test="${dto.prodDelFee != 0 }"><fmt:formatNumber value="${dto.prodDelFee}" type="number"/>원</c:if>
 			</td></tr>
 			
 	<tr><td>
 		수량: <input type="number" size="3" min="1" name="purchaseQty" value="1" onchange="onQty();"/>
 		</td></tr>
 	
-	<tr><td align="right">총 상품금액: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<span id="tot"><fmt:formatNumber value="${dto.prodPrice}" type="currency"/></span></td></tr>
+	<tr><td align="right">총 상품금액 : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span id="tot"><fmt:formatNumber value="${dto.prodPrice}" type="number"/>원</span></td></tr>
 	
 	 
 	<tr><td align="right">
 			<input type="button" value="장바구니" onclick="goodsCartAdd('${dto.prodNum}');" />
-			<input type="submit" value="바로 구매"/></td></tr>
+			<input type="submit" value="바로 구매"/>
+			<input type="button" value="뒤로가기" onclick="javascript:history.back();"/></td></tr>
 			
 	<tr><td colspan="2">
 			<h3>상품 상세 내용</h3>
@@ -77,7 +93,7 @@ ${dto.ctgr }의 ${dto.prodName } 상품 설명입니다.</h1>
 		</td></tr>
 </table>
 </form>
-리뷰
+<h4>리뷰</h4>
 <hr />
 <c:forEach items="${list }" var="dto">
 	<p>
@@ -87,8 +103,7 @@ ${dto.ctgr }의 ${dto.prodName } 상품 설명입니다.</h1>
 	${fn:replace(dto.reviewContent,br,"<br />")}<br />
 	<c:if test="${dto.reviewImg != null }">
 		<img src="goods/review/${dto.reviewImg }" width="70"/>
-	</c:if>
-	<hr/>
+	</c:if>	<hr/>
 	</p>
 </c:forEach>
 </body>

@@ -1,6 +1,6 @@
 package model.DAO;
 
-import java.sql.Date;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,21 +30,19 @@ public class NoticeDAO extends DataBaseInfo{
    
    
    public void noticeInsert(NoticeDTO dto) {
-      sql = "insert into notice ( " + COLUMNS +  " ) values (?,?,?,?,?,?,?,?)";
+      sql = "insert into notice ( " + COLUMNS +  " ) values (?,?,?,sysdate,?,?,?,?)";
       getConnect();
       try {
-         pstmt=conn.prepareStatement(sql);
-         pstmt.setString(1, dto.getNoticeNo());
-         pstmt.setString(2, dto.getNoticeSub());
-         pstmt.setString(3, dto.getNoticeCon());
-         long noticeDate=dto.getNoticeDate().getTime();
-         pstmt.setDate(4, new Date(noticeDate));
-         pstmt.setString(5, dto.getNoticeKind());
-         pstmt.setString(6, dto.getNoticeFile());
-         pstmt.setString(7, dto.getNoticeHits());
-         pstmt.setString(8, dto.getEmployeeId());
-         int i = pstmt.executeUpdate();
-         System.out.println(i+"개 행이 저장되었습니다.");
+    	  pstmt=conn.prepareStatement(sql);
+          pstmt.setString(1, dto.getNoticeNo());
+          pstmt.setString(2, dto.getNoticeSub());
+          pstmt.setString(3, dto.getNoticeCon());
+          pstmt.setString(4, dto.getNoticeKind());
+          pstmt.setString(5, dto.getNoticeFile());
+          pstmt.setString(6, dto.getNoticeHits());
+          pstmt.setString(7, dto.getEmployeeId());
+          int i = pstmt.executeUpdate();
+          System.out.println(i+"개 행이 저장되었습니다.");
       } catch (SQLException e) {
          e.printStackTrace();
       } finally {
@@ -54,8 +52,6 @@ public class NoticeDAO extends DataBaseInfo{
    
    public void noticeUpdate(NoticeDTO dto) {
 	  
-
-	   
 	   sql=" update notice set NOTICE_SUB = ?, NOTICE_CON = ?, NOTICE_KIND = ?, NOTICE_FILE = ?, NOTICE_HITS = ? where NOTICE_NO = ? ";
 	   getConnect();
 	   try {

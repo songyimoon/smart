@@ -1,14 +1,11 @@
 package controller.notice;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 
 import model.DAO.NoticeDAO;
 import model.DTO.AuthInfo;
-import model.DTO.NoticeDTO;
 
 public class NoticeNumberPage {
 	public void seqNum(HttpServletRequest request) {

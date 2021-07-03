@@ -196,7 +196,6 @@ public class MemberDAO {
 			pstmt.setString(10, dto.getMemAccount());
 			pstmt.setString(11, dto.getMemEmail());
 			pstmt.setString(12, dto.getMemEmailCk());
-		
 			int i = pstmt.executeUpdate();
 			System.out.println(i+"개 행이 저장되었습니다.");
 	

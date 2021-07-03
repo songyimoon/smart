@@ -31,7 +31,7 @@
                         $("#empPwCon").val()="";
                         $("#empPw").focus();                         
                         return false;
-                    }
+                    } 
                 }
             }); 
         });
